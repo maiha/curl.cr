@@ -1,0 +1,19 @@
+name: curl
+version: 0.1.0
+
+authors:
+  - maiha <maiha@wota.jp>
+
+targets:
+  curl:
+    main: samples/curl.cr
+
+dependencies:
+  curl-crystal:
+    github: blocknotes/curl-crystal
+    version: 0.1.2
+  var:
+    github: maiha/var.cr
+    version: ">= 1.2.0"
+
+license: MIT

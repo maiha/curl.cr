@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  builder:
+    build: .
+    command: shards build --link-flags "-static" -Dstatic
+    volumes:
+      - .:/v
+    working_dir: /v
