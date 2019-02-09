@@ -5,8 +5,8 @@ authors:
   - maiha <maiha@wota.jp>
 
 targets:
-  curl:
-    main: samples/curl.cr
+  crurl:
+    main: samples/crurl.cr
 
 dependencies:
   curl-crystal:

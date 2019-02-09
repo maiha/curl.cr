@@ -1,6 +1,7 @@
 # curl.cr
 
 curl for [Crystal](http://crystal-lang.org/).
+This is a handy wrapper for `blocknotes/curl-crystal`
 
 - crystal: 0.27.0
 
@@ -19,27 +20,70 @@ dependencies:
 
 ```crystal
 require "curl"
+
+curl = Curl::Easy.new
+res  = curl.get "http://examples.com"
+res.body 
 ```
 
-TODO: Write usage instructions here
+## Sample
 
-## Static link
+`samples/crurl.cr` is an example using `libcurl` to make a `curl` compatible application in Crystal.
 
-You need to install dependent libraries as follows.
 ```console
-$ pkg-config --libs libcurl --static
- -L/usr/lib/x86_64-linux-gnu/mit-krb5 -lcurl -lidn -lrtmp -lssl -lcrypto -lssl -lcrypto -Wl,-Bsymbolic-functions -Wl,-z,relro -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -llber -lldap -lz
-``` 
-
-And then, pass `-Dstatic` flag to crystal compiler in build command.
-It is easiest to use docker.
-```console
-$ docker-compose run --rm builder crystal build -o bin/curl samples/curl.cr --link-flags 
+$ make build
 ```
 
 ## Development
 
-TODO: Write development instructions here
+curl is a very multifunctional and large library, and the functionality implemented in this library is very small. If there is a missing function, please implement it. PR is greatly appreciated.
+
+```console
+$ make spec
+```
+
+### Constants
+
+If you want to add new constants to [src/curl/const.cr](./src/curl/const.cr),
+you must edit it's source file [gen/lib_curl_const.h](./gen/lib_curl_const.h).
+And then, generate `src/curl/const.cr`.
+
+```console
+$ make src/curl/const.cr
+```
+
+### Docker
+
+Rebuild docker containers after you modified [docker/*](./docker/).
+
+```console
+$ make rebuild-docker
+```
+
+## Static link
+
+Minimum `libcurl.a` will be prepared as follows by `make libcurl.a`.
+
+```console
+$ make libcurl.a
+...
+[libcurl.a]
+  curl version:     7.64.0-DEV
+    Protocols:        HTTP HTTPS
+	   LIBS:            -lidn2 -lssl -lcrypto -lssl -lcrypto -lz
+```
+
+Then you can compile your apps by adding `--link-flags "-static $PWD/libcurl.a"`.
+
+```console
+$ crystal build app.cr --link-flags "-static $PWD/libcurl.a"
+```
+
+If your environment does not have a dependent library it will result in an error. In that case, you can easily create it by using the container that created `libcurl.a` as follows.
+
+```console
+$ docker-compose run --rm static crystal build app.cr --link-flags "-static /v/libcurl.a"
+```
 
 ## Contributing
 

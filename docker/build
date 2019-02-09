@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+set -eu
+
+if [ $# -ne 1 ]; then
+  echo "usage: $0 <curl_tag>" 1>&2
+  exit 1
+fi
+  
+tag=$1                         # "curl-7_64_0"
+lib="$tag/lib/.libs/libcurl.a" # "curl-7_64_0/.libs/libcurl.a"
+
+if [ -d "$tag" ]; then
+  echo "$tag : found"
+else
+  echo "$tag : not found. Fetching..."
+  git clone --depth=1 -b $tag https://github.com/curl/curl.git $tag
+fi
+
+### work in the source directory of Curl
+if [ -f "$lib" ]; then
+  echo "$lib : found"
+else
+  echo "$lib : not found. Building..."
+
+  cd $tag
+
+  ./buildconf
+
+  ./configure --disable-shared --enable-static --disable-ldap --disable-sspi --without-librtmp --disable-ftp --disable-file --disable-dict --disable-telnet --disable-tftp --disable-rtsp --disable-pop3 --disable-imap --disable-smtp --disable-gopher --disable-smb --disable-rtsp > config.info
+
+  make -j`nproc`
+  cd ..
+fi
+
+### main directory
+
+if [ ! -f "libcurl.a" ]; then
+  cp -pf "$lib" libcurl.a
+fi
+
+if [ ! -f "libcurl.info" ]; then
+  cp -pf "$tag/config.info" libcurl.info
+fi
+
+echo ""
+echo "[libcurl.a]"
+# [libcurl.info]
+#   LIBS:            -lidn2 -lssl -lcrypto -lssl -lcrypto -lz
+#   curl version:     7.64.0-DEV
+#   Protocols:        HTTP HTTPS
+grep ' curl version:' libcurl.info
+grep ' Protocols:'    libcurl.info
+grep ' LIBS:'         libcurl.info

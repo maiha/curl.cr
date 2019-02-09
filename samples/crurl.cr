@@ -3,6 +3,7 @@ require "../src/curl"
 
 begin
   curl = Curl::Easy.new
+  curl.logger.level = Logger::Severity::INFO
 
   parser = OptionParser.new
   parser.on("-u=<user:password>", "Server user and password") {|v| curl.basic_auth(v)}
@@ -12,13 +13,12 @@ begin
   parser.parse!
 
   curl.uri = ARGV.shift? || raise ArgumentError.new("URL not found")
-  curl.logger.level = Logger::Severity::DEBUG
   res = curl.get
   print res.body
 
 rescue err  
   if err.is_a?(ArgumentError)
-    STDERR.puts "Usage: #{PROGRAM_NAME} <url>"
+    STDERR.puts "Usage: crurl <url>"
     if _parser = parser
       STDERR.puts _parser
     end

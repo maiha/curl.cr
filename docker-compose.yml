@@ -1,9 +1,11 @@
 version: '2'
 
 services:
-  builder:
-    build: .
-    command: shards build --link-flags "-static" -Dstatic
+  static:
+    build:
+      context: ./docker/
+    command: build curl-7_64_0
+    user: "${UID}:${GID}"
     volumes:
       - .:/v
     working_dir: /v

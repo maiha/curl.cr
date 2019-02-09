@@ -1,23 +1,26 @@
-SHELL=/bin/bash
-
-NATIVE_DIR        = .lib/x86_64-linux-gnu
-STATIC_LINK_FLAGS := --link-flags "-static /v/$(NATIVE_DIR)/libcurl.a"
-
-#STATIC_LINK_FLAGS = --link-flags "-static -lcurl -lssl"
-
+SHELL = /bin/bash
 .SHELLFLAGS = -o pipefail -c
 
 export LC_ALL=C
-export LD_LIBRARY_PATH=$(NATIVE_DIR)
+export UID = $(shell id -u)
+export GID = $(shell id -g)
 
-all:
+.PHONY : crurl
+
+all: build
+
+build:
 	shards build
 
-static:
-	docker-compose run --rm builder crystal build -o bin/curl samples/curl.cr ${STATIC_LINK_FLAGS} 2>&1
+libcurl.a:
+	docker-compose run --rm static
 
-xxx:
-	docker-compose run --rm builder bash -c 'cd samples && make > log 2>&1'
+rebuild-docker:
+	docker-compose build --no-cache static
+
+static: libcurl.a
+	docker-compose run --rm static shards build --link-flags "-static /v/libcurl.a" 2>&1
+	LC_ALL=C file bin/crurl | grep 'statically'
 
 src/curl/const.cr: gen/lib_curl_const.h
 	@touch $@
@@ -35,10 +38,10 @@ spec:
 
 .PHONY : check_version_mismatch
 check_version_mismatch: shard.yml README.md
-	diff -w -c <(grep version: README.md) <(grep ^version: shard.yml)
+	diff -w -c <(grep '    version:' README.md) <(grep ^version: shard.yml)
 
 ######################################################################
-### auto versioning for development
+### commit versions for shard owner
 
 VERSION=
 CURRENT_VERSION=$(shell git tag -l | sort -V | tail -1)
