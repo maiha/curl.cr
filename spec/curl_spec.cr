@@ -6,6 +6,9 @@ describe Curl do
     res  = curl.get
     res.success?.should be_true
     res.body.should contain("Example Domain")
+    res.io.should be_a(IO)
+    res.io.rewind
+    res.io.gets_to_end.should contain("Example Domain")
   end
 
   it "Failed to connect to invalid server" do

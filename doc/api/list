@@ -1,0 +1,9 @@
+easy	curl_easy_cleanup
+easy	curl_easy_duphandle
+easy	curl_easy_getinfo
+easy	curl_easy_init
+easy	curl_easy_perform
+easy	curl_easy_recv
+easy	curl_easy_reset
+easy	curl_easy_send
+easy	curl_easy_setopt

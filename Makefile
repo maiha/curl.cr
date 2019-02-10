@@ -12,8 +12,16 @@ all: build
 build:
 	shards build
 
+.PHONY : spec
+spec:
+	crystal spec -v --fail-fast
+
+######################################################################
+### static build
+
 libcurl.a:
 	docker-compose run --rm static
+	sha256sum libcurl.a
 
 rebuild-docker:
 	docker-compose build --no-cache static
@@ -22,6 +30,23 @@ static: libcurl.a
 	docker-compose run --rm static shards build --link-flags "-static /v/libcurl.a" 2>&1
 	LC_ALL=C file bin/crurl | grep 'statically'
 
+######################################################################
+### docs
+
+docs: doc/api/API.md
+
+doc/api/API.md: doc/api/doc.cr doc/api/list doc/api/impl doc/api/note Makefile
+	crystal doc/api/doc.cr > $@
+
+doc/api/list: lib/curl-crystal/src/curl-crystal/lib_easy.cr Makefile
+	cat $^ | awk '/^[ ]+fun /{sub("\(", " ");print "easy\t" $$2}' | sort | uniq > $@
+
+doc/api/impl: src/curl/api.cr Makefile
+	cat $^ | grep -hv "^\s*#" | awk '/^[ ]+(api)/{print $$2}' | sort | uniq > $@
+
+######################################################################
+### generate codes
+
 src/curl/const.cr: gen/lib_curl_const.h
 	@touch $@
 	@echo "## Automatically generated from $^" >> $@
@@ -29,12 +54,11 @@ src/curl/const.cr: gen/lib_curl_const.h
 	@cat $^ | grep -v '^# ' | sed -e 's|/\*|#|' -e 's|\*/$$||' -e 's/^#define \s*\([A-Z0-9_][A-Z0-9_]*\s*\)\(.*\)/\1= \2/' -e 's/^/  /' -e 's/(unsigned long)//' >> $@
 	@echo "end" >> $@
 
-.PHONY : test
-test: check_version_mismatch spec
+######################################################################
+### CI
 
-.PHONY : spec
-spec:
-	crystal spec -v --fail-fast
+.PHONY : ci
+ci: check_version_mismatch spec static
 
 .PHONY : check_version_mismatch
 check_version_mismatch: shard.yml README.md

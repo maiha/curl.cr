@@ -1,12 +1,14 @@
 class Curl::Response
-  var io : IO
+  var code : Int32
+  var io   : IO
+  var body : String
 
   def initialize(@code : Int32, @io : IO)
+    io.rewind
   end
 
   def body : String
-    io.rewind
-    io.gets_to_end
+    @body ||= (io.rewind; io.gets_to_end)
   end
 
   def success? : Bool

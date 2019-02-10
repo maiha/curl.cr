@@ -21,14 +21,49 @@ dependencies:
 ```crystal
 require "curl"
 
-curl = Curl::Easy.new
-res  = curl.get "http://examples.com"
-res.body 
+curl = Curl::Easy.new("http://examples.com")
+curl.get.body  # => "<html>..."
 ```
+
+## API
+
+Supported native functions: [doc/api/API.md](./doc/api/API.md)
+
+- Core
+  - Auth
+    - [x] #basic_auth
+    - [ ] #digest_auth
+  - Callback
+    - [ ] before_execute
+  - Compress
+    - [x] #compressed=(v : Bool)
+  - Logging
+    - [x] #logger
+  - Response
+    - [ ] #headers
+    - [x] #code
+    - [x] #body
+    - [x] #io
+    - [x] #success?
+  - Timeout
+    - [ ] dns_timeout
+    - [ ] connect_timeout
+    - [ ] read_timeout
+  - URI
+    - [x] #uri=(v)
+    - [x] #port
+- Easy Interface
+  - [x] #get
+  - [ ] #post
+  - [ ] #put
+- Multi Interface
+  - [ ] #get
+  - [ ] #post
+  - [ ] #put
 
 ## Sample
 
-`samples/crurl.cr` is an example using `libcurl` to make a `curl` compatible application in Crystal.
+[samples/crurl.cr](./samples/crurl.cr) is an example using `libcurl` to make a `curl` compatible application in Crystal.
 
 ```console
 $ make build
@@ -54,7 +89,7 @@ $ make src/curl/const.cr
 
 ### Docker
 
-Rebuild docker containers after you modified [docker/*](./docker/).
+Rebuild docker containers if you modified [docker/*](./docker/).
 
 ```console
 $ make rebuild-docker
@@ -62,15 +97,15 @@ $ make rebuild-docker
 
 ## Static link
 
-Minimum `libcurl.a` will be prepared as follows by `make libcurl.a`.
+Minimum `libcurl.a` will be prepared as follows.
 
 ```console
 $ make libcurl.a
 ...
 [libcurl.a]
   curl version:     7.64.0-DEV
-    Protocols:        HTTP HTTPS
-	   LIBS:            -lidn2 -lssl -lcrypto -lssl -lcrypto -lz
+  Protocols:        HTTP HTTPS
+   LIBS:            -lidn2 -lssl -lcrypto -lssl -lcrypto -lz
 ```
 
 Then you can compile your apps by adding `--link-flags "-static $PWD/libcurl.a"`.
