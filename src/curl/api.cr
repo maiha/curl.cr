@@ -5,12 +5,16 @@ module Curl::Api
 
   # Defines handy methods for the native functions
   private macro api(name)
-    def {{name.id}}(*args)
-      ::Curl::Lib.{{name.id}}(curl, *args)
+    # returns nil if no errors, otherwise returns the exception
+    def {{name.id}}?(*args) : ::Curl::Error?
+      {{name.id}}(*args)
+      nil
+    rescue err : ::Curl::Error
+      err
     end
 
-    def {{name.id}}!(*args)
-      _rv = ::Curl::Lib.{{name.id}}(curl, *args)
+    def {{name.id}}(*args)
+      _rv = ::Curl::Lib.{{name.id}}(*args)
       error_check!(_rv, "{{name.id}}")
     end
   end
@@ -24,6 +28,7 @@ module Curl::Api
   api  curl_easy_perform
   api  curl_easy_setopt
   api  curl_easy_cleanup
+  api  curl_easy_getinfo
 
   abstract def get(path : String? = nil) : Response
   abstract def cleanup

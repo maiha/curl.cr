@@ -15,6 +15,11 @@ describe Curl do
     res.io.gets_to_end.should contain("Example Domain")
   end
 
+  it "301" do
+    curl = Curl::Easy.new("http://github.com")
+    curl.get.code.should eq(301)
+  end
+  
   it "Failed to connect to invalid server" do
     curl = Curl::Easy.new("http://127.0.0.1:4/")
     expect_raises(Curl::Error, /Failed to connect/) do

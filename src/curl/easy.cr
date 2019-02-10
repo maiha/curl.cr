@@ -4,7 +4,7 @@ class Curl::Easy < Curl::Base
 
   def get(path : String? = nil) : Response
     update_uri!(path)
-    curl_easy_setopt!(CURLOPT_URL, uri.to_s)
+    curl_easy_setopt(curl, CURLOPT_URL, uri.to_s)
     return execute
   ensure
     cleanup
@@ -12,7 +12,7 @@ class Curl::Easy < Curl::Base
   
   protected def cleanup
     if _curl = curl?
-      curl_easy_cleanup
+      Lib.curl_easy_cleanup(_curl)
     end
   end
 

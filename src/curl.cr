@@ -25,6 +25,9 @@ module Curl
   {% for member in LibCurl::CURLoption.constants %}
     {{member}} = LibCurl::CURLoption::{{member}}
   {% end %}
+  {% for member in LibCurl::CURLINFO.constants %}
+    {{member}} = LibCurl::CURLINFO::{{member}}
+  {% end %}
 
   include LibCurlConst
 end

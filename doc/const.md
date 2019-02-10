@@ -1,5 +1,5 @@
 # const
-## Implemented 1% (11/920)
+## Implemented 1% (12/920)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLAUTH_ANY`                        |     ||
@@ -249,7 +249,7 @@
 |`CURLINFO_REDIRECT_TIME_T`            |     ||
 |`CURLINFO_REDIRECT_URL`               |     ||
 |`CURLINFO_REQUEST_SIZE`               |     ||
-|`CURLINFO_RESPONSE_CODE`              |     ||
+|`CURLINFO_RESPONSE_CODE`              |✓    ||
 |`CURLINFO_RTSP_CLIENT_CSEQ`           |     ||
 |`CURLINFO_RTSP_CSEQ_RECV`             |     ||
 |`CURLINFO_RTSP_SERVER_CSEQ`           |     ||

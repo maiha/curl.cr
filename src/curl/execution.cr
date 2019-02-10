@@ -24,11 +24,14 @@ module Curl::Execution
       cb.call(contents, size*nmemb)
     }
     
-    curl_easy_setopt!(CURLOPT_WRITEFUNCTION, func)
-    curl_easy_setopt!(CURLOPT_WRITEDATA, boxed)
-    curl_easy_perform!
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, func)
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, boxed)
+    curl_easy_perform(curl)
 
+    response_code = Pointer(UInt64).malloc(1_u64)
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, response_code)
+    
     io.rewind
-    return Response.new(200, io)
+    return Response.new(response_code.value.to_i32, io)
   end
 end

@@ -20,8 +20,8 @@ module Curl::Auth
     case auth_type?
     when .basic?
       userpwd = auth_userpwd? || raise Error.new("BUG: no credentials")
-      curl_easy_setopt!(CURLOPT_USERPWD, userpwd)
-      curl_easy_setopt!(CURLOPT_HTTPAUTH, CURLAUTH_BASIC)
+      curl_easy_setopt(curl, CURLOPT_USERPWD, userpwd)
+      curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC)
     end
   end
 end
