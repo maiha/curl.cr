@@ -37,7 +37,8 @@ describe Curl do
   
   it "Failed to connect to invalid server" do
     curl = Curl::Easy.new("http://127.0.0.1:4/")
-    expect_raises(Curl::Error, /Failed to connect/) do
+    curl.basic_auth("a:b")
+    expect_raises(Curl::Easy::Error, /Failed to connect/) do
       curl.get
     end
   end

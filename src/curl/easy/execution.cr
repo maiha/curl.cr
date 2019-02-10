@@ -1,8 +1,6 @@
 require "./info"
 
-module Curl::Execution
-  include Curl::Info::Helper
-
+class Curl::Easy
   def execute : Response
     # TODO: dry up callback feature
     callback_auth!
@@ -33,8 +31,7 @@ module Curl::Execution
     curl_easy_perform(curl)
 
     info = build_info
-    logger.debug "response: name lookup time: %.3f sec" % info.namelookup_time
-    logger.debug "response: total time: %.3f sec" % info.total_time
+    logger.debug "response: TIMES overview\n%s" % info.times_overview
 
     io.rewind
     return Response.new(io, info)

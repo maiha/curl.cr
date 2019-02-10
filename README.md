@@ -17,7 +17,14 @@ dependencies:
 ```
 2. Run `shards install`
 
-## Basic Usage
+## Usage
+
+`libcurl` provides two interfaces those are `Easy` and `Multi`.
+Easy Interface is standard api that provides **synchronous** access, and well used by many applications.
+
+## Easy Interface
+
+`Curl::Easy#get` returns `Curl::Easy::Response`.
 
 ```crystal
 require "curl"
@@ -29,24 +36,40 @@ curl.get.body  # => "<html>..."
 All available variables for `curl.xxx` are as bellows.
 
 ```crystal
-  var logger = Logger.new(STDERR)
-  var uri : URI
+  var dump_header = false # Pass headers to the data stream
+  var verbose     = false # Set verbose mode
   
   var timeout         : Time::Span
   var connect_timeout : Time::Span
 
   var compressed = false # Request compressed response
-  var verbose    = false # Set verbose mode
 ```
 
-See [src/curl/base.cr](./src/curl/base.cr) for further details.
+- See [src/curl/easy.cr](./src/curl/easy.cr) for variables.
+- See [doc/easy.md](./doc/easy.md) for implemented `easy` functions.
 
-## Easy Interface
+### Curl::Easy::Info
 
-`libcurl` provides two interfaces those are `Easy` and `Multi`.
-Easy Interface is standard api that provides **synchronous** access, and well used by many applications.
+`Curl::Easy::Response#info` returns `Curl::Easy::Info`.
 
-Implmented api: [doc/easy.md](./doc/easy.md)
+```crystal
+info = curl.get.info
+info.namelookup_time # => 0.00439
+puts res.info.times_overview
+```
+
+```
+(0.004s) |--NAMELOOKUP
+(0.018s) |--|--CONNECT
+(0.000s) |--|--|--APPCONNECT
+(0.018s) |--|--|--|--PRETRANSFER
+(0.032s) |--|--|--|--|--STARTTRANSFER
+(0.032s) |--|--|--|--|--|--TOTAL
+(0.000s) |--|--|--|--|--|--REDIRECT
+```
+
+- See [src/curl/easy/info.cr](./src/curl/easy.cr) for variables.
+
 
 ## Multi Interface
 

@@ -1,4 +1,4 @@
-module Curl::Api
+class Curl::Easy
   protected def error_check!(code : Code, hint : String? = nil)
     code.curle_ok? || raise Error.new(code, hint, uri?)
   end
@@ -29,7 +29,4 @@ module Curl::Api
   api  curl_easy_setopt
   api  curl_easy_cleanup
   api  curl_easy_getinfo
-
-  abstract def get(path : String? = nil) : Response
-  abstract def cleanup
 end

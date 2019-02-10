@@ -1,4 +1,4 @@
-class Curl::Response
+class Curl::Easy::Response
   var io   : IO
   var body : String
   var info : Info

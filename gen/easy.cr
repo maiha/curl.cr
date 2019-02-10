@@ -3,6 +3,7 @@
 ###
 ### [src]
 ###   - "curl/include/curl/curl.h"
+###   - "src/curl/easy/api.cr"
 ### [dst]
 ###   - "src/lib_curl_const.cr"
 ###   - "doc/const/list"
@@ -62,7 +63,7 @@ puts "created: '%s' (%d)" % [path, valid_definitions.size]
 
 path  = "doc/easy/impl"
 names = Array(String).new
-File.read_lines("src/curl/api.cr").each do |line|
+File.read_lines("src/curl/easy/api.cr").each do |line|
   case line
   when /^\s*(api|impl)\s+([a-z0-9_]+)\s*$/
     names << $2

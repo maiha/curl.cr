@@ -1,4 +1,4 @@
-class Curl::Error < Exception
+class Curl::Easy::Error < Exception
   var code : Code
   var hint : String
   var uri  : URI

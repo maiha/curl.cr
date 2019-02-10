@@ -1,10 +1,10 @@
-module Curl::Auth
-  enum Type
+class Curl::Easy
+  enum Auth
     NONE
     BASIC
   end
 
-  var auth_type : Type = Type::NONE
+  var auth_type : Auth = Auth::NONE
   var auth_userpwd : String
   
   def basic_auth(user : String, password : String)
@@ -12,7 +12,7 @@ module Curl::Auth
   end
 
   def basic_auth(userpwd : String)
-    self.auth_type = Type::BASIC
+    self.auth_type = Auth::BASIC
     self.auth_userpwd = userpwd
   end
 
