@@ -31,34 +31,23 @@ static: libcurl.a
 	LC_ALL=C file bin/crurl | grep 'statically'
 
 ######################################################################
-### docs
+### generate
 
-docs: doc/api/API.md
+.PHONY : const
+const:
+	@crystal gen/const.cr
+	@crystal gen/doc.cr doc/const > doc/const.md
 
-doc/api/API.md: doc/api/doc.cr doc/api/list doc/api/impl doc/api/note Makefile
-	crystal doc/api/doc.cr > $@
-
-doc/api/list: lib/curl-crystal/src/curl-crystal/lib_easy.cr Makefile
-	cat $^ | awk '/^[ ]+fun /{sub("\(", " ");print "easy\t" $$2}' | sort | uniq > $@
-
-doc/api/impl: src/curl/api.cr Makefile
-	cat $^ | grep -hv "^\s*#" | awk '/^[ ]+(api|impl)/{print $$2}' | sort | uniq > $@
-
-######################################################################
-### generate codes
-
-src/curl/const.cr: gen/lib_curl_const.h
-	@touch $@
-	@echo "## Automatically generated from $^" >> $@
-	@echo "module Curl::Const" >> $@
-	@cat $^ | grep -v '^# ' | sed -e 's|/\*|#|' -e 's|\*/$$||' -e 's/^#define \s*\([A-Z0-9_][A-Z0-9_]*\s*\)\(.*\)/\1= \2/' -e 's/^/  /' -e 's/(unsigned long)//' >> $@
-	@echo "end" >> $@
+.PHONY : easy
+easy:
+	@crystal gen/easy.cr
+	@crystal gen/doc.cr doc/easy > doc/easy.md
 
 ######################################################################
 ### CI
 
 .PHONY : ci
-ci: check_version_mismatch spec static
+ci: check_version_mismatch const easy spec static
 
 .PHONY : check_version_mismatch
 check_version_mismatch: shard.yml README.md

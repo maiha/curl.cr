@@ -15,6 +15,7 @@ if [ -d "$tag" ]; then
 else
   echo "$tag : not found. Fetching..."
   git clone --depth=1 -b $tag https://github.com/curl/curl.git $tag
+  ln -sf $tag curl
 fi
 
 ### work in the source directory of Curl

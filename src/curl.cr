@@ -12,7 +12,7 @@ require "curl-crystal"
 lib LibCurl
 end
 
-require "./curl/const"
+require "./lib_curl_const"
 module Curl
   # Shortcuts for `LibCurl`
   alias Lib    = LibCurl
@@ -23,9 +23,7 @@ module Curl
     {{member}} = LibCurl::CURLoption::{{member}}
   {% end %}
 
-#  CURLOPT_USERPWD = LibCurl::CURLoption::CURLOPT_USERPWD
-
-  include Curl::Const
+  include LibCurlConst
 end
 
 require "./curl/*"

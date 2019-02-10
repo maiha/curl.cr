@@ -28,7 +28,8 @@ curl.get.body  # => "<html>..."
 
 ## API
 
-Supported native functions: [doc/api/API.md](./doc/api/API.md)
+- Supported CURL Constants: [doc/const.md](./doc/const.md)
+- Supported Easy Interface: [doc/easy.md](./doc/easy.md)
 
 - Core
   - Auth
@@ -82,12 +83,19 @@ $ make spec
 
 ### Constants
 
-If you want to add new constants to [src/curl/const.cr](./src/curl/const.cr),
-you must edit it's source file [gen/lib_curl_const.h](./gen/lib_curl_const.h).
-And then, generate `src/curl/const.cr`.
+[src/lib_curl_const.cr](./src/lib_curl_const.cr) is managed by [gen/const.cr](./gen/const.cr),
+and generated from "curl/include/curl/curl.h" as follows.
 
 ```console
-$ make src/curl/const.cr
+$ make const
+```
+
+### Document
+
+- [doc/easy.md](./doc/easy.md) is generated as follows.
+
+```console
+$ make easy
 ```
 
 ### Docker

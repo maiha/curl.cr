@@ -15,5 +15,8 @@ dependencies:
   var:
     github: maiha/var.cr
     version: ">= 1.2.0"
+  pretty:
+    github: maiha/pretty.cr
+    version: ">= 0.6.5"
 
 license: MIT
