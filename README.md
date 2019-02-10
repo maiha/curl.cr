@@ -106,21 +106,14 @@ curl is a very multifunctional and large library, and the functionality implemen
 $ make spec
 ```
 
-### Constants
+### Automatically generated files
 
-[src/lib_curl_const.cr](./src/lib_curl_const.cr) is managed by [gen/const.cr](./gen/const.cr),
-and generated from "curl/include/curl/curl.h" as follows.
-
-```console
-$ make const
-```
-
-### Document
-
-- [doc/easy.md](./doc/easy.md) is generated as follows.
+- [src/lib_curl_const.cr](./src/lib_curl_const.cr)
+- [doc/const.md](./doc/const.md) 
+- [doc/easy.md](./doc/easy.md) 
 
 ```console
-$ make easy
+$ make gen
 ```
 
 ### Docker

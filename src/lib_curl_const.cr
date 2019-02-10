@@ -2,7 +2,7 @@
 #
 # src: https://github.com/curl/curl/blob/curl-7_64_0/include/curl/curl.h
 #
-# Run "make const" to update
+# Run "make gen" to update
 #
 
 module LibCurlConst

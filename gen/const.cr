@@ -109,7 +109,7 @@ enum_consts = Array(String).new
 ### doc/const/list
 
 path  = "doc/const/list"
-names = (valid_definitions.map(&.key).to_set | enum_consts.to_set).to_a.sort
+names = LibCurlSymbols::CurlSymbols.map(&.name)
 data  = names.join("\n")
 
 File.write(path, data)
@@ -134,7 +134,7 @@ data = String.build do |s|
     #
     # src: https://github.com/curl/curl/blob/#{real_header_path}
     #
-    # Run "make const" to update
+    # Run "make gen" to update
     #
     
     USAGE

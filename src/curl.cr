@@ -14,6 +14,8 @@ lib LibCurl
 end
 
 require "./lib_curl_const"
+require "./lib_curl_symbols"
+
 module Curl
   # Shortcuts for `LibCurl`
   alias Lib    = LibCurl

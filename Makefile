@@ -33,6 +33,10 @@ static: libcurl.a
 ######################################################################
 ### generate
 
+.PHONY : symbols
+symbols:
+	@crystal gen/symbols.cr
+
 .PHONY : const
 const:
 	@crystal gen/const.cr
@@ -44,7 +48,7 @@ easy:
 	@crystal gen/doc.cr doc/easy > doc/easy.md
 
 .PHONY : gen
-gen: const easy
+gen: symbols const easy
 
 ######################################################################
 ### CI
