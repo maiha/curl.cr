@@ -16,6 +16,9 @@ build:
 spec:
 	crystal spec -v --fail-fast
 
+dynamic-crurl:
+	crystal build samples/crurl.cr
+
 ######################################################################
 ### static build
 

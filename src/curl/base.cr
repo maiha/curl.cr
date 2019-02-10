@@ -3,6 +3,7 @@ require "./auth"
 require "./behavior"
 require "./compress"
 require "./execution"
+require "./info"
 require "./timeout"
 
 abstract class Curl::Base

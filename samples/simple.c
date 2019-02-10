@@ -16,11 +16,21 @@ int main(void)
 
     /* Perform the request, res will get the return code */
     res = curl_easy_perform(curl);
-    /* Check for errors */
-    if(res != CURLE_OK)
+
+    if(res == CURLE_OK) {
+      double total;
+      res = curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total);
+      if(CURLE_OK == res) {
+	printf("Time: %.1f\n", total);
+      }
+    } else {
+      /* Check for errors */
       fprintf(stderr, "curl_easy_perform() failed: %s\n",
 	      curl_easy_strerror(res));
-
+      /* always cleanup */
+      curl_easy_cleanup(curl);
+    }
+  
     /* always cleanup */
     curl_easy_cleanup(curl);
   }

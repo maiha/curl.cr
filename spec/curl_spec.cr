@@ -8,11 +8,26 @@ describe Curl do
     curl.dump_header = true
     
     res = curl.get
+
+    # basic
     res.success?.should be_true
+    res.code.should eq(200)
     res.body.should contain("Example Domain")
+
+    # IO
     res.io.should be_a(IO)
     res.io.rewind
     res.io.gets_to_end.should contain("Example Domain")
+
+    # info
+    res.info.response_code.should eq(200)
+    res.info.namelookup_time    .should be_a(Float64)
+    res.info.connect_time       .should be_a(Float64)
+    res.info.appconnect_time    .should be_a(Float64)
+    res.info.pretransfer_time   .should be_a(Float64)
+    res.info.starttransfer_time .should be_a(Float64)
+    res.info.total_time         .should be_a(Float64)
+    res.info.redirect_time      .should be_a(Float64)
   end
 
   it "301" do

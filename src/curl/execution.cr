@@ -1,4 +1,8 @@
+require "./info"
+
 module Curl::Execution
+  include Curl::Info::Helper
+
   def execute : Response
     # TODO: dry up callback feature
     callback_auth!
@@ -28,10 +32,11 @@ module Curl::Execution
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, boxed)
     curl_easy_perform(curl)
 
-    response_code = Pointer(UInt64).malloc(1_u64)
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, response_code)
-    
+    info = build_info
+    logger.debug "response: name lookup time: %.3f sec" % info.namelookup_time
+    logger.debug "response: total time: %.3f sec" % info.total_time
+
     io.rewind
-    return Response.new(response_code.value.to_i32, io)
+    return Response.new(io, info)
   end
 end

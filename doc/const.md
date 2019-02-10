@@ -1,5 +1,5 @@
 # const
-## Implemented 1% (12/920)
+## Implemented 2% (19/920)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLAUTH_ANY`                        |     ||
@@ -196,11 +196,11 @@
 |`CURLHEADER_SEPARATE`                 |     ||
 |`CURLHEADER_UNIFIED`                  |     ||
 |`CURLINFO_ACTIVESOCKET`               |     ||
-|`CURLINFO_APPCONNECT_TIME`            |     ||
+|`CURLINFO_APPCONNECT_TIME`            |✓    ||
 |`CURLINFO_APPCONNECT_TIME_T`          |     ||
 |`CURLINFO_CERTINFO`                   |     ||
 |`CURLINFO_CONDITION_UNMET`            |     ||
-|`CURLINFO_CONNECT_TIME`               |     ||
+|`CURLINFO_CONNECT_TIME`               |✓    ||
 |`CURLINFO_CONNECT_TIME_T`             |     ||
 |`CURLINFO_CONTENT_LENGTH_DOWNLOAD`    |     ||
 |`CURLINFO_CONTENT_LENGTH_DOWNLOAD_T`  |     ||
@@ -229,13 +229,13 @@
 |`CURLINFO_LOCAL_PORT`                 |     ||
 |`CURLINFO_LONG`                       |     ||
 |`CURLINFO_MASK`                       |     ||
-|`CURLINFO_NAMELOOKUP_TIME`            |     ||
+|`CURLINFO_NAMELOOKUP_TIME`            |✓    ||
 |`CURLINFO_NAMELOOKUP_TIME_T`          |     ||
 |`CURLINFO_NONE`                       |     ||
 |`CURLINFO_NUM_CONNECTS`               |     ||
 |`CURLINFO_OFF_T`                      |     ||
 |`CURLINFO_OS_ERRNO`                   |     ||
-|`CURLINFO_PRETRANSFER_TIME`           |     ||
+|`CURLINFO_PRETRANSFER_TIME`           |✓    ||
 |`CURLINFO_PRETRANSFER_TIME_T`         |     ||
 |`CURLINFO_PRIMARY_IP`                 |     ||
 |`CURLINFO_PRIMARY_PORT`               |     ||
@@ -245,7 +245,7 @@
 |`CURLINFO_PROXY_SSL_VERIFYRESULT`     |     ||
 |`CURLINFO_PTR`                        |     ||
 |`CURLINFO_REDIRECT_COUNT`             |     ||
-|`CURLINFO_REDIRECT_TIME`              |     ||
+|`CURLINFO_REDIRECT_TIME`              |✓    ||
 |`CURLINFO_REDIRECT_TIME_T`            |     ||
 |`CURLINFO_REDIRECT_URL`               |     ||
 |`CURLINFO_REQUEST_SIZE`               |     ||
@@ -269,13 +269,13 @@
 |`CURLINFO_SSL_DATA_OUT`               |     ||
 |`CURLINFO_SSL_ENGINES`                |     ||
 |`CURLINFO_SSL_VERIFYRESULT`           |     ||
-|`CURLINFO_STARTTRANSFER_TIME`         |     ||
+|`CURLINFO_STARTTRANSFER_TIME`         |✓    ||
 |`CURLINFO_STARTTRANSFER_TIME_T`       |     ||
 |`CURLINFO_STRING`                     |     ||
 |`CURLINFO_TEXT`                       |     ||
 |`CURLINFO_TLS_SESSION`                |     ||
 |`CURLINFO_TLS_SSL_PTR`                |     ||
-|`CURLINFO_TOTAL_TIME`                 |     ||
+|`CURLINFO_TOTAL_TIME`                 |✓    ||
 |`CURLINFO_TOTAL_TIME_T`               |     ||
 |`CURLINFO_TYPEMASK`                   |     ||
 |`CURLIOCMD_NOP`                       |     ||
