@@ -12,7 +12,7 @@ This is a handy wrapper for `blocknotes/curl-crystal`
 dependencies:
   curl:
     github: maiha/curl.cr
-    version: 0.1.0
+    version: 0.2.0
 ```
 2. Run `shards install`
 
