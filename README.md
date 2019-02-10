@@ -1,7 +1,7 @@
 # curl.cr
 
-curl for [Crystal](http://crystal-lang.org/).
-This is a handy wrapper for `blocknotes/curl-crystal`
+High level curl library for [Crystal](http://crystal-lang.org/).
+This is a handy wrapper for blocknotes's [curl-crystal](https://github.com/blocknotes/curl-crystal)
 
 - crystal: 0.27.0
 
@@ -95,4 +95,5 @@ $ docker-compose run --rm static crystal build app.cr --link-flags "-static /v/l
 
 ## Contributors
 
-- [maiha](https://github.com/maiha) - creator and maintainer
+- [maiha](https://github.com/maiha) - creator and maintainer for this repository.
+- [blocknotes](https://github.com/blocknotes) - author of `LibCurl` which is a function of lower layer
