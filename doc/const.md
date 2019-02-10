@@ -1,5 +1,5 @@
 # const
-## Implemented 1% (10/920)
+## Implemented 1% (11/920)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLAUTH_ANY`                        |     ||
@@ -407,7 +407,7 @@
 |`CURLOPT_GSSAPI_DELEGATION`           |     ||
 |`CURLOPT_HAPPY_EYEBALLS_TIMEOUT_MS`   |     ||
 |`CURLOPT_HAPROXYPROTOCOL`             |     ||
-|`CURLOPT_HEADER`                      |     ||
+|`CURLOPT_HEADER`                      |✓    ||
 |`CURLOPT_HEADERDATA`                  |     ||
 |`CURLOPT_HEADERFUNCTION`              |     ||
 |`CURLOPT_HEADEROPT`                   |     ||

@@ -5,7 +5,8 @@ describe Curl do
     curl = Curl::Easy.new("https://example.com")
     curl.connect_timeout = 3.seconds
     curl.timeout = 10.seconds
-
+    curl.dump_header = true
+    
     res = curl.get
     res.success?.should be_true
     res.body.should contain("Example Domain")

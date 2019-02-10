@@ -1,26 +1,29 @@
 require "./api"
 require "./auth"
+require "./behavior"
 require "./compress"
 require "./execution"
 require "./timeout"
-require "./verbose"
 
 abstract class Curl::Base
   include Curl::Api
   include Curl::Auth
+  include Curl::Behavior
   include Curl::Compress
   include Curl::Execution
   include Curl::Timeout
-  include Curl::Verbose
 
   var logger = Logger.new(STDERR)
   var uri : URI
+
+  # behavior
+  var dump_header = false # Pass headers to the data stream
+  var verbose     = false # Set verbose mode
   
   var timeout         : Time::Span
   var connect_timeout : Time::Span
 
   var compressed = false # Request compressed response
-  var verbose    = false # Set verbose mode
 
   def port : Int32
     uri?.try{|u| u.port || URI.default_port(u.scheme.to_s)} || 80
