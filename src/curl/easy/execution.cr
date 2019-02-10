@@ -31,8 +31,10 @@ class Curl::Easy
     curl_easy_perform(curl)
 
     info = build_info
-    logger.debug "response: TIMES overview\n%s" % info.times_overview
-
+    logger.debug "TIMES overview\n%s" % info.times_overview
+    logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
+    logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
+    
     io.rewind
     return Response.new(io, info)
   end

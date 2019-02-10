@@ -1,5 +1,5 @@
 # const
-## Implemented 2% (19/920)
+## Implemented 2% (22/920)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLAUTH_ANY`                        |     ||
@@ -222,7 +222,7 @@
 |`CURLINFO_HTTPAUTH_AVAIL`             |     ||
 |`CURLINFO_HTTP_CODE`                  |     ||
 |`CURLINFO_HTTP_CONNECTCODE`           |     ||
-|`CURLINFO_HTTP_VERSION`               |     ||
+|`CURLINFO_HTTP_VERSION`               |✓    ||
 |`CURLINFO_LASTONE`                    |     ||
 |`CURLINFO_LASTSOCKET`                 |     ||
 |`CURLINFO_LOCAL_IP`                   |     ||
@@ -255,13 +255,13 @@
 |`CURLINFO_RTSP_SERVER_CSEQ`           |     ||
 |`CURLINFO_RTSP_SESSION_ID`            |     ||
 |`CURLINFO_SCHEME`                     |     ||
-|`CURLINFO_SIZE_DOWNLOAD`              |     ||
+|`CURLINFO_SIZE_DOWNLOAD`              |✓    ||
 |`CURLINFO_SIZE_DOWNLOAD_T`            |     ||
 |`CURLINFO_SIZE_UPLOAD`                |     ||
 |`CURLINFO_SIZE_UPLOAD_T`              |     ||
 |`CURLINFO_SLIST`                      |     ||
 |`CURLINFO_SOCKET`                     |     ||
-|`CURLINFO_SPEED_DOWNLOAD`             |     ||
+|`CURLINFO_SPEED_DOWNLOAD`             |✓    ||
 |`CURLINFO_SPEED_DOWNLOAD_T`           |     ||
 |`CURLINFO_SPEED_UPLOAD`               |     ||
 |`CURLINFO_SPEED_UPLOAD_T`             |     ||

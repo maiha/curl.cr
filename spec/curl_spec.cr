@@ -20,7 +20,10 @@ describe Curl do
     res.io.gets_to_end.should contain("Example Domain")
 
     # info
-    res.info.response_code.should eq(200)
+    res.info.response_code      .should eq(200)
+    res.info.http_version       .should be_a(Int64)
+    res.info.size_download      .should be_a(Float64)
+    res.info.speed_download     .should be_a(Float64)
     res.info.namelookup_time    .should be_a(Float64)
     res.info.connect_time       .should be_a(Float64)
     res.info.appconnect_time    .should be_a(Float64)

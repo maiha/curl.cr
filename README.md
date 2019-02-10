@@ -33,7 +33,7 @@ curl = Curl::Easy.new("http://examples.com")
 curl.get.body  # => "<html>..."
 ```
 
-All available variables for `curl.xxx` are as bellows.
+See [src/curl/easy.cr](./src/curl/easy.cr) for all variables.
 
 ```crystal
   var dump_header = false # Pass headers to the data stream
@@ -45,7 +45,6 @@ All available variables for `curl.xxx` are as bellows.
   var compressed = false # Request compressed response
 ```
 
-- See [src/curl/easy.cr](./src/curl/easy.cr) for variables.
 - See [doc/easy.md](./doc/easy.md) for implemented `easy` functions.
 
 ### Curl::Easy::Info
@@ -68,7 +67,7 @@ puts res.info.times_overview
 (0.000s) |--|--|--|--|--|--REDIRECT
 ```
 
-- See [src/curl/easy/info.cr](./src/curl/easy.cr) for variables.
+- See [src/curl/easy/info.cr](./src/curl/easy.cr) for all variables.
 
 
 ## Multi Interface
@@ -77,8 +76,6 @@ Multi Interface provides **asynchronous** access.
 (Not Implemented Yet)
 
 ## Roadmap
-
-- Supported CURL Constants: [doc/const.md](./doc/const.md)
 
 - Core
   - Auth
@@ -128,10 +125,30 @@ curl is a very multifunctional and large library, and the functionality implemen
 ```console
 $ make spec
 ```
+### Constants
+
+All constants in `libcurl` are mapped to `Curl::XXX`.
+For example, `CURLOPT_VERBOSE` is declared as `enum`. So it can be used as follows.
+
+```crystal
+Curl::CURLOPT_VERBOSE.value # => 41
+```
+
+See [doc/const.md](./doc/const.md) for further details.
+
+### Symbols
+
+All symbols are extracted to `LibCurlSymbols` from <https://github.com/curl/curl/blob/master/docs/libcurl/symbols-in-versions>.
+
+```crystal
+LibCurlSymbols.each do |symbol|
+  symbol # => LibCurlSymbols::CurlSymbol(@name="CURLAUTH_ANY", @introduced="7.10.6", @deprecated="", @removed="")
+```
 
 ### Automatically generated files
 
 - [src/lib_curl_const.cr](./src/lib_curl_const.cr)
+- [src/lib_curl_symbols.cr](./src/lib_curl_symbols.cr)
 - [doc/const.md](./doc/const.md) 
 - [doc/easy.md](./doc/easy.md) 
 
