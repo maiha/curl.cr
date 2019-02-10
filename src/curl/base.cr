@@ -2,12 +2,14 @@ require "./api"
 require "./auth"
 require "./compress"
 require "./execution"
+require "./verbose"
 
 abstract class Curl::Base
   include Curl::Api
   include Curl::Auth
   include Curl::Compress
   include Curl::Execution
+  include Curl::Verbose
 
   var logger = Logger.new(STDERR)
   var uri : URI
@@ -16,8 +18,9 @@ abstract class Curl::Base
   var connect_timeout : Float64
   var read_timeout    : Float64
 
-  var compressed : Bool = false # Request compressed response
-  
+  var compressed = false # Request compressed response
+  var verbose    = false # Set verbose mode
+
   def port : Int32
     uri?.try{|u| u.port || URI.default_port(u.scheme.to_s)} || 80
   end

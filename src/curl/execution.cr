@@ -1,7 +1,10 @@
 module Curl::Execution
   def execute : Response
+    # TODO: dry up callback feature
     callback_auth!
     callback_compress!
+    callback_verbose!
+
     execute_curl
   end
 

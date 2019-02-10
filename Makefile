@@ -42,7 +42,7 @@ doc/api/list: lib/curl-crystal/src/curl-crystal/lib_easy.cr Makefile
 	cat $^ | awk '/^[ ]+fun /{sub("\(", " ");print "easy\t" $$2}' | sort | uniq > $@
 
 doc/api/impl: src/curl/api.cr Makefile
-	cat $^ | grep -hv "^\s*#" | awk '/^[ ]+(api)/{print $$2}' | sort | uniq > $@
+	cat $^ | grep -hv "^\s*#" | awk '/^[ ]+(api|impl)/{print $$2}' | sort | uniq > $@
 
 ######################################################################
 ### generate codes

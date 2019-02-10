@@ -3,7 +3,8 @@
 High level curl library for [Crystal](http://crystal-lang.org/).
 This is a handy wrapper for blocknotes's [curl-crystal](https://github.com/blocknotes/curl-crystal)
 
-- crystal: 0.27.0
+- crystal-0.27.0 : http://crystal-lang.org/
+- curl-7_64_0 : https://github.com/curl/curl
 
 ## Installation
 
@@ -52,11 +53,13 @@ Supported native functions: [doc/api/API.md](./doc/api/API.md)
   - URI
     - [x] #uri=(v)
     - [x] #port
-- Easy Interface
+  - Verbose
+    - [x] #verbose
+- Easy Interface : https://curl.haxx.se/libcurl/c/
   - [x] #get
   - [ ] #post
   - [ ] #put
-- Multi Interface
+- Multi Interface : https://curl.haxx.se/libcurl/c/libcurl-multi.html
   - [ ] #get
   - [ ] #post
   - [ ] #put

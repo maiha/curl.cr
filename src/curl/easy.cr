@@ -1,4 +1,6 @@
 class Curl::Easy < Curl::Base
+  # Automatically create instances with initial access
+  var curl : Lib::CURL* = Lib.curl_easy_init
 
   def get(path : String? = nil) : Response
     update_uri!(path)
@@ -10,7 +12,7 @@ class Curl::Easy < Curl::Base
   
   protected def cleanup
     if _curl = curl?
-      Lib.curl_easy_cleanup(_curl)
+      curl_easy_cleanup
     end
   end
 

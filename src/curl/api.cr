@@ -1,7 +1,4 @@
 module Curl::Api
-  # Automatically create instances with initial access
-  var curl : Lib::CURL* = Lib.curl_easy_init
-
   protected def error_check!(code : Code, hint : String? = nil)
     code.curle_ok? || raise Error.new(code, hint, uri?)
   end
@@ -18,10 +15,16 @@ module Curl::Api
     end
   end
 
+  # NOP: just used for document generation
+  private macro impl(name)
+  end
+  
   # Declare CURL methods explicitly for the case of printing backtraces
-  api curl_easy_perform
-  api curl_easy_setopt
-    
+  impl curl_easy_init
+  api  curl_easy_perform
+  api  curl_easy_setopt
+  api  curl_easy_cleanup
+
   abstract def get(path : String? = nil) : Response
   abstract def cleanup
 end
