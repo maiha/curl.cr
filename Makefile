@@ -43,6 +43,9 @@ easy:
 	@crystal gen/easy.cr
 	@crystal gen/doc.cr doc/easy > doc/easy.md
 
+.PHONY : gen
+gen: const easy
+
 ######################################################################
 ### CI
 

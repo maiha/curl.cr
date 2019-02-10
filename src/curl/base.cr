@@ -2,6 +2,7 @@ require "./api"
 require "./auth"
 require "./compress"
 require "./execution"
+require "./timeout"
 require "./verbose"
 
 abstract class Curl::Base
@@ -9,14 +10,14 @@ abstract class Curl::Base
   include Curl::Auth
   include Curl::Compress
   include Curl::Execution
+  include Curl::Timeout
   include Curl::Verbose
 
   var logger = Logger.new(STDERR)
   var uri : URI
   
-  var dns_timeout     : Float64
-  var connect_timeout : Float64
-  var read_timeout    : Float64
+  var timeout         : Time::Span
+  var connect_timeout : Time::Span
 
   var compressed = false # Request compressed response
   var verbose    = false # Set verbose mode

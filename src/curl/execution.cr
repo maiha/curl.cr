@@ -3,8 +3,9 @@ module Curl::Execution
     # TODO: dry up callback feature
     callback_auth!
     callback_compress!
+    callback_timeout!
     callback_verbose!
-
+    
     execute_curl
   end
 

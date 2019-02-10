@@ -3,8 +3,9 @@ require "uri"
 require "logger"
 
 # shards
-require "var"
 require "curl-crystal"
+require "var"
+require "pretty"
 
 # @[Link(ldflags: "`command -v curl-config > /dev/null && curl-config --static-libs || printf %s '-lcurl'`")]
 

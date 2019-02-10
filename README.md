@@ -1,9 +1,9 @@
 # curl.cr
 
-High level curl library for [Crystal](http://crystal-lang.org/).
+High level curl library for Crystal.
 This is a handy wrapper for blocknotes's [curl-crystal](https://github.com/blocknotes/curl-crystal)
 
-- crystal-0.27.0 : http://crystal-lang.org/
+- crystal-0.27.0 : https://crystal-lang.org/
 - curl-7_64_0 : https://github.com/curl/curl
 
 ## Installation
@@ -17,7 +17,7 @@ dependencies:
 ```
 2. Run `shards install`
 
-## Usage
+## Basic Usage
 
 ```crystal
 require "curl"
@@ -26,10 +26,36 @@ curl = Curl::Easy.new("http://examples.com")
 curl.get.body  # => "<html>..."
 ```
 
-## API
+All available variables for `curl.xxx` are as bellows.
+
+```crystal
+  var logger = Logger.new(STDERR)
+  var uri : URI
+  
+  var timeout         : Time::Span
+  var connect_timeout : Time::Span
+
+  var compressed = false # Request compressed response
+  var verbose    = false # Set verbose mode
+```
+
+See [src/curl/base.cr](./src/curl/base.cr) for further details.
+
+## Easy Interface
+
+`libcurl` provides two interfaces those are `Easy` and `Multi`.
+Easy Interface is standard api that provides **synchronous** access, and well used by many applications.
+
+Implmented api: [doc/easy.md](./doc/easy.md)
+
+## Multi Interface
+
+Multi Interface provides **asynchronous** access.
+(Not Implemented Yet)
+
+## Roadmap
 
 - Supported CURL Constants: [doc/const.md](./doc/const.md)
-- Supported Easy Interface: [doc/easy.md](./doc/easy.md)
 
 - Core
   - Auth
@@ -48,9 +74,8 @@ curl.get.body  # => "<html>..."
     - [x] #io
     - [x] #success?
   - Timeout
-    - [ ] dns_timeout
-    - [ ] connect_timeout
-    - [ ] read_timeout
+    - [x] connect_timeout
+    - [x] timeout
   - URI
     - [x] #uri=(v)
     - [x] #port

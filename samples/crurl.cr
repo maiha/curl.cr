@@ -7,7 +7,8 @@ begin
 
   parser = OptionParser.new
   parser.on("-u=<user:password>", "Server user and password") {|v| curl.basic_auth(v)}
-  parser.on("--connect-timeout=<seconds>", "Maximum time allowed for connection") {|v| curl.connect_timeout = v.to_f64}
+  parser.on("--connect-timeout=<seconds>", "Maximum time allowed for connection") {|v| curl.connect_timeout = v.to_i32.seconds}
+  parser.on("--timeout=<seconds>", "Maximum time allowed for timeout") {|v| curl.timeout = v.to_i32.seconds}
   parser.on("--compressed", "Request compressed response") { curl.compressed = true }
   parser.on("-v", "set verbose output") { curl.verbose = true }
   parser.on("-d", "debug mode") { curl.logger.level = Logger::Severity::DEBUG }

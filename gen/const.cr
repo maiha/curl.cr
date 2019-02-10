@@ -7,7 +7,7 @@
 ###   - "src/lib_curl_const.cr"
 ###   - "doc/const/list"
 
-require "pretty"
+require "../curl"
 
 File.exists?("curl") || abort "'curl' sources not found. Please run 'make libcurl.a` first."
 
@@ -98,13 +98,22 @@ consts.each do |k, ary|
 end
 
 ######################################################################
+### from enums
+
+enum_consts = Array(String).new
+{% for member in LibCurl::CURLoption.constants %}
+  enum_consts << "{{member}}"
+{% end %}
+
+######################################################################
 ### doc/const/list
 
-path = "doc/const/list"
-data = valid_definitions.map(&.key).join("\n")
+path  = "doc/const/list"
+names = (valid_definitions.map(&.key).to_set | enum_consts.to_set).to_a.sort
+data  = names.join("\n")
 
 File.write(path, data)
-puts "created: '%s' (%d)" % [path, valid_definitions.size]
+puts "created: '%s' (%d)" % [path, names.size]
 
 ######################################################################
 ### doc/const/impl

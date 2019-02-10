@@ -3,7 +3,10 @@ require "./spec_helper"
 describe Curl do
   it "works" do
     curl = Curl::Easy.new("https://example.com")
-    res  = curl.get
+    curl.connect_timeout = 3.seconds
+    curl.timeout = 10.seconds
+
+    res = curl.get
     res.success?.should be_true
     res.body.should contain("Example Domain")
     res.io.should be_a(IO)
