@@ -30,6 +30,9 @@ module Curl
   {% end %}
 
   include LibCurlConst
+
+  # Global initialization. Call here for multi thread.
+  Lib.curl_global_init(CURL_GLOBAL_ALL)
 end
 
 require "./curl/*"
