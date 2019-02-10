@@ -23,6 +23,14 @@ int main(void)
       if(CURLE_OK == res) {
 	printf("Time: %.1f\n", total);
       }
+
+      char *ct = NULL;
+      res = curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &ct);
+      if(!res && ct) {
+	printf("Content-Type: %d\n", CURLINFO_CONTENT_TYPE);
+	printf("Content-Type: %s\n", ct);
+      }
+      
     } else {
       /* Check for errors */
       fprintf(stderr, "curl_easy_perform() failed: %s\n",

@@ -30,7 +30,10 @@ Easy Interface is standard api that provides **synchronous** access, and well us
 require "curl"
 
 curl = Curl::Easy.new("http://examples.com")
-curl.get.body  # => "<html>..."
+res = curl.get
+res.code         # => 200
+res.content_type # => "text/html; charset=UTF-8"
+res.body         # => "<html>..."
 ```
 
 See [src/curl/easy.cr](./src/curl/easy.cr) for all variables.

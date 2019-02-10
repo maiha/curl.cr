@@ -21,7 +21,8 @@ describe Curl do
 
     # info
     res.info.response_code      .should eq(200)
-    res.info.http_version       .should be_a(Int64)
+    res.info.http_version       .should eq(Curl::CURL_HTTP_VERSION_1_1.value)
+    res.info.content_type       .should eq("text/html; charset=UTF-8")
     res.info.size_download      .should be_a(Float64)
     res.info.speed_download     .should be_a(Float64)
     res.info.namelookup_time    .should be_a(Float64)

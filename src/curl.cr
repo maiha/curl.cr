@@ -14,6 +14,7 @@ lib LibCurl
 end
 
 require "./lib_curl_const"
+require "./lib_curl_custom"
 require "./lib_curl_symbols"
 
 module Curl
@@ -27,6 +28,9 @@ module Curl
   {% end %}
   {% for member in LibCurl::CURLINFO.constants %}
     {{member}} = LibCurl::CURLINFO::{{member}}
+  {% end %}
+  {% for member in LibCurlCustom::CURL_HTTP_VERSION.constants %}
+    {{member}} = LibCurlCustom::CURL_HTTP_VERSION::{{member}}
   {% end %}
 
   include LibCurlConst

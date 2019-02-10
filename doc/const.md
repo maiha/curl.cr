@@ -1,5 +1,5 @@
 # const
-## Implemented 2% (22/920)
+## Implemented 2% (23/920)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLAUTH_ANY`                        |     ||
@@ -206,7 +206,7 @@
 |`CURLINFO_CONTENT_LENGTH_DOWNLOAD_T`  |     ||
 |`CURLINFO_CONTENT_LENGTH_UPLOAD`      |     ||
 |`CURLINFO_CONTENT_LENGTH_UPLOAD_T`    |     ||
-|`CURLINFO_CONTENT_TYPE`               |     ||
+|`CURLINFO_CONTENT_TYPE`               |✓    ||
 |`CURLINFO_COOKIELIST`                 |     ||
 |`CURLINFO_DATA_IN`                    |     ||
 |`CURLINFO_DATA_OUT`                   |     ||
