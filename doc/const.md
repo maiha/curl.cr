@@ -1,5 +1,5 @@
 # const
-## Implemented 2% (23/920)
+## Implemented 3% (28/920)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLAUTH_ANY`                        |     ||
@@ -308,7 +308,7 @@
 |`CURLMOPT_PUSHDATA`                   |     ||
 |`CURLMOPT_PUSHFUNCTION`               |     ||
 |`CURLMOPT_SOCKETDATA`                 |     ||
-|`CURLMOPT_SOCKETFUNCTION`             |     ||
+|`CURLMOPT_SOCKETFUNCTION`             |✓    ||
 |`CURLMOPT_TIMERDATA`                  |     ||
 |`CURLMOPT_TIMERFUNCTION`              |     ||
 |`CURLMSG_DONE`                        |     ||
@@ -833,11 +833,11 @@
 |`CURL_NETRC_IGNORED`                  |     ||
 |`CURL_NETRC_OPTIONAL`                 |     ||
 |`CURL_NETRC_REQUIRED`                 |     ||
-|`CURL_POLL_IN`                        |     ||
-|`CURL_POLL_INOUT`                     |     ||
+|`CURL_POLL_IN`                        |✓    ||
+|`CURL_POLL_INOUT`                     |✓    ||
 |`CURL_POLL_NONE`                      |     ||
-|`CURL_POLL_OUT`                       |     ||
-|`CURL_POLL_REMOVE`                    |     ||
+|`CURL_POLL_OUT`                       |✓    ||
+|`CURL_POLL_REMOVE`                    |✓    ||
 |`CURL_PROGRESS_BAR`                   |     ||
 |`CURL_PROGRESS_STATS`                 |     ||
 |`CURL_PUSH_DENY`                      |     ||

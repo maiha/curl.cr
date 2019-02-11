@@ -5,6 +5,7 @@ This is a handy wrapper for blocknotes's [curl-crystal](https://github.com/block
 
 - crystal-0.27.0 : https://crystal-lang.org/
 - curl-7_64_0 : https://github.com/curl/curl
+  - `Multi` interface requires 7.16.0 or above.
 
 ## Installation
 
@@ -48,7 +49,7 @@ See [src/curl/easy.cr](./src/curl/easy.cr) for all variables.
   var compressed = false # Request compressed response
 ```
 
-- See [doc/easy.md](./doc/easy.md) for implemented `easy` functions.
+- See [doc/easy.md](./doc/easy.md) for implemented `Easy` functions.
 
 ### Curl::Easy::Info
 
@@ -75,8 +76,20 @@ puts res.info.times_overview
 
 ## Multi Interface
 
-Multi Interface provides **asynchronous** access.
-(Not Implemented Yet)
+Execution of requests by `Easy` is blocked at the libcurl level, so even if executed within `spawn`, execution of crystal is blocked there. 
+
+Multi Interface provides **asynchronous** access. It enables multiple simultaneous transfers in the same thread without making forks.
+
+```crystal
+multi = Curl::Multi.new
+multi << Curl::Easy.new("https://example.com")
+multi << Curl::Easy.new("https://github.com")
+multi.run(timeout: 10.seconds)
+
+multi.requests.map(&.response.code) # => [200, 200]
+```
+
+- See [doc/multi.md](./doc/multi.md) for implemented `Multi` functions.
 
 ## Roadmap
 

@@ -14,13 +14,17 @@ lib LibCurl
 end
 
 require "./lib_curl_const"
+require "./lib_curl_multi"
 require "./lib_curl_custom"
 require "./lib_curl_symbols"
 
+# for Multi socket action
+require "./lib_epoll"
+require "./lib_epoll_custom"
+
 module Curl
-  # Shortcuts for `LibCurl`
-  alias Lib    = LibCurl
-  alias Code   = Lib::CURLcode
+  alias Code = LibCurl::CURLcode
+  alias MCode = LibCurlMulti::CurlMcode
 
   # flatten enum into const
   {% for member in LibCurl::CURLoption.constants %}
@@ -32,11 +36,20 @@ module Curl
   {% for member in LibCurlCustom::CURL_HTTP_VERSION.constants %}
     {{member}} = LibCurlCustom::CURL_HTTP_VERSION::{{member}}
   {% end %}
-
+  {% for member in LibCurlMulti::CurlMoption.constants %}
+    {{member}} = LibCurlMulti::CurlMoption::{{member}}
+  {% end %}
+  {% for member in LibEpoll::Event.constants %}
+    {{member}} = LibEpoll::Event::{{member}}
+  {% end %}
+  
   include LibCurlConst
 
   # Global initialization. Call here for multi thread.
-  Lib.curl_global_init(CURL_GLOBAL_ALL)
+  LibCurl.curl_global_init(CURL_GLOBAL_ALL)
 end
 
-require "./curl/*"
+require "./curl/error"
+require "./curl/easy"
+require "./curl/multi"
+require "./curl/multi_socket_action"

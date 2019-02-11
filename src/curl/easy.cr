@@ -1,11 +1,19 @@
 require "./easy/*"
 
 class Curl::Easy
-  # Automatically create instances with initial access
-  private var curl : Lib::CURL* = Lib.curl_easy_init
+  ######################################################################
+  ### Internal variables
 
-  var logger = Logger.new(STDERR)
-  var uri : URI
+  var curl : LibCurl::CURL* 
+  var userdata = IO::Memory.new
+    
+  ######################################################################
+  ### Public variables
+
+  var uri      : URI
+  var logger   : Logger   = Logger.new(STDERR)
+  var response : Response = build_response
+  var info     : Info     = build_info
 
   # behavior
   var dump_header = false # Pass headers to the data stream
@@ -16,6 +24,15 @@ class Curl::Easy
 
   var compressed = false # Request compressed response
 
+  def initialize
+    @curl = LibCurl.curl_easy_init
+    GC.add_finalizer(self)
+  end
+
+  def finalize
+    LibCurl.curl_easy_cleanup(curl)
+  end
+
   def port : Int32
     uri?.try{|u| u.port || URI.default_port(u.scheme.to_s)} || 80
   end
@@ -23,7 +40,7 @@ class Curl::Easy
   def uri=(url : String)
     update_uri!(url)
   end
-  
+
   protected def update_uri!(path : String? = nil)
     case path
     when %r{\Ahttp(s?)://}
@@ -41,18 +58,9 @@ class Curl::Easy
   
   def get(path : String? = nil) : Response
     update_uri!(path)
-    curl_easy_setopt(curl, CURLOPT_URL, uri.to_s)
     return execute
-  ensure
-    cleanup
   end
   
-  protected def cleanup
-    if _curl = curl?
-      Lib.curl_easy_cleanup(_curl)
-    end
-  end
-
   def self.new(uri : URI) : Curl::Easy
     new.tap(&.uri = uri)
   end

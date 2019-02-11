@@ -1,4 +1,4 @@
-class Curl::Easy::Error < Exception
+class Curl::Easy::Error < Curl::Error
   var code : Code
   var hint : String
   var uri  : URI
@@ -27,6 +27,6 @@ class Curl::Easy::Error < Exception
   end
 
   def self.errmsg(code : Code) : String
-    String.new(Lib.curl_easy_strerror(code))
+    String.new(LibCurl.curl_easy_strerror(code))
   end
 end  

@@ -50,8 +50,13 @@ easy:
 	@crystal gen/easy.cr
 	@crystal gen/doc.cr doc/easy > doc/easy.md
 
+.PHONY : multi
+multi:
+	@crystal gen/multi.cr
+	@crystal gen/doc.cr doc/multi > doc/multi.md
+
 .PHONY : gen
-gen: symbols const easy
+gen: symbols const easy multi
 
 ######################################################################
 ### CI

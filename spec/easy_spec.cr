@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe Curl do
+describe Curl::Easy do
   it "works" do
     curl = Curl::Easy.new("https://example.com")
     curl.connect_timeout = 3.seconds

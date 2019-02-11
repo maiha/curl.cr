@@ -1,6 +1,6 @@
-class Curl::Easy
-  protected def error_check!(code : Code, hint : String? = nil)
-    code.curle_ok? || raise Error.new(code, hint, uri?)
+module Curl::Multi::Api
+  protected def error_check!(code : MCode, hint : String? = nil)
+    code.curlm_ok? || raise Error.new(code, hint)
   end
 
   # Defines handy methods for the native functions
@@ -14,7 +14,7 @@ class Curl::Easy
     end
 
     def {{name.id}}(*args)
-      _rv = ::LibCurl.{{name.id}}(*args)
+      _rv = ::LibCurlMulti.{{name.id}}(*args)
       error_check!(_rv, "{{name.id}}")
     end
   end
@@ -24,9 +24,10 @@ class Curl::Easy
   end
   
   # Declare CURL methods explicitly for the case of printing backtraces
-  impl curl_easy_init
-  api  curl_easy_perform
-  api  curl_easy_setopt
-  api  curl_easy_cleanup
-  api  curl_easy_getinfo
+  impl curl_multi_init
+  api  curl_multi_add_handle
+  api  curl_multi_perform
+  api  curl_multi_cleanup
+  api  curl_multi_wait
+  api  curl_multi_setopt
 end

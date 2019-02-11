@@ -11,11 +11,15 @@ require "../curl"
 
 File.exists?("curl") || abort "'curl' sources not found. Please run 'make libcurl.a` first."
 
-curl_header_path = "curl/include/curl/curl.h"
-real_header_path = curl_header_path.sub(/^curl/, `readlink curl`.chomp)
+curl_header_paths = ["curl/include/curl/curl.h", "curl/include/curl/multi.h"]
+real_header_paths = curl_header_paths.map(&.sub(/^curl/, `readlink curl`.chomp))
 
 # trim multilines that has trailing back-slash
-buf = File.read(curl_header_path).gsub(/\\\n/, " ")
+buf = String.build do |s|
+  real_header_paths.each do |path|
+    s << File.read(path).gsub(/\\\n/, " ")
+  end
+end
 srcs = buf.split(/\n/)
 
 valid_definitions   = Array(Define).new
@@ -129,16 +133,14 @@ puts "created: '%s' (%d)" % [path, data.count("\n")]
 
 path = "src/lib_curl_const.cr"
 data = String.build do |s|
-  s.puts <<-USAGE
-    # This file is managed by 'gen/const.cr'. Do not edit.
-    #
-    # src: https://github.com/curl/curl/blob/#{real_header_path}
-    #
-    # Run "make gen" to update
-    #
-    
-    USAGE
-  
+  s.puts "# This file is managed by 'gen/const.cr'. Do not edit."
+  s.puts "#"
+  real_header_paths.each do |path|
+    s.puts "# src: https://github.com/curl/curl/blob/#{path}"
+  end
+  s.puts "#"
+  s.puts "# Run 'make gen' to update"
+  s.puts "#"
   s.puts "module LibCurlConst"
 
   # first, write giveup_messages

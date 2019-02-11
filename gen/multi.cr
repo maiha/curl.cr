@@ -1,20 +1,20 @@
 ######################################################################
-### automatically generate documents about `easy`
+### automatically generate documents about `multi`
 ###
 ### [src]
-###   - "curl/include/curl/easy.h"
-###   - "src/curl/easy/api.cr"
+###   - "curl/include/curl/multi.h"
+###   - "src/curl/multi/api.cr"
 ### [dst]
-###   - "doc/easy/list"
-###   - "doc/easy/impl"
-###   - "doc/easy.md"
+###   - "doc/multi/list"
+###   - "doc/multi/impl"
+###   - "doc/multi.md"
 
 require "pretty"
 
 File.exists?("curl") || abort "'curl' sources not found. Please run 'make libcurl.a` first."
 
 
-curl_header_path = "curl/include/curl/easy.h"
+curl_header_path = "curl/include/curl/multi.h"
 real_header_path = curl_header_path.sub(/^curl/, `readlink curl`.chomp)
 
 # trim multilines that has trailing back-slash
@@ -26,11 +26,11 @@ record Define, name : String do
     io << "#{name}"
   end
 
-  # CURL_EXTERN CURL *curl_easy_init(void);
-  # CURL_EXTERN CURLcode curl_easy_setopt(CURL *curl, CURLoption option, ...);
+  # CURL_EXTERN CURLM *curl_multi_init(void);
+  # CURL_EXTERN const char *curl_multi_strerror(CURLMcode);
   def self.parse?(line : String) : Define?
     case line
-    when /^CURL_EXTERN\s+\S+\s+(curl_easy_.*?)\b/
+    when /^CURL_EXTERN\s+.*?\b(curl_multi_.*?)\b/
       Define.new($1)
     else
       return nil
@@ -51,20 +51,20 @@ srcs.each do |line|
 end
 
 ######################################################################
-### doc/easy/list
+### doc/multi/list
 
-path = "doc/easy/list"
+path = "doc/multi/list"
 data = valid_definitions.map(&.name).join("\n")
 
 File.write(path, data)
 puts "created: '%s' (%d)" % [path, valid_definitions.size]
 
 ######################################################################
-### doc/easy/impl
+### doc/multi/impl
 
-path  = "doc/easy/impl"
+path  = "doc/multi/impl"
 names = Array(String).new
-File.read_lines("src/curl/easy/api.cr").each do |line|
+File.read_lines("src/curl/multi/api.cr").each do |line|
   case line
   when /^\s*(api|impl)\s+([a-z0-9_]+)\s*$/
     names << $2

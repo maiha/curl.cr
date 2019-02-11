@@ -1,10 +1,10 @@
 # This file is managed by 'gen/const.cr'. Do not edit.
 #
 # src: https://github.com/curl/curl/blob/curl-7_64_0/include/curl/curl.h
+# src: https://github.com/curl/curl/blob/curl-7_64_0/include/curl/multi.h
 #
-# Run "make gen" to update
+# Run 'make gen' to update
 #
-
 module LibCurlConst
   # found 'CURL_SOCKET_BAD' has 2 definitions
   # CURL_SOCKET_BAD INVALID_SOCKET 
@@ -255,4 +255,25 @@ module LibCurlConst
   CURLPAUSE_SEND_CONT = (0)                                      
   CURLPAUSE_ALL       = (CURLPAUSE_RECV|CURLPAUSE_SEND)          
   CURLPAUSE_CONT      = (CURLPAUSE_RECV_CONT|CURLPAUSE_SEND_CONT)
+
+  CURLM_CALL_MULTI_SOCKET = CURLM_CALL_MULTI_PERFORM
+
+  CURLPIPE_NOTHING   = 0
+  CURLPIPE_HTTP1     = 1
+  CURLPIPE_MULTIPLEX = 2
+
+  CURL_WAIT_POLLIN    = 0x0001         
+  CURL_WAIT_POLLPRI   = 0x0002         
+  CURL_WAIT_POLLOUT   = 0x0004         
+  CURL_POLL_NONE      = 0              
+  CURL_POLL_IN        = 1              
+  CURL_POLL_OUT       = 2              
+  CURL_POLL_INOUT     = 3              
+  CURL_POLL_REMOVE    = 4              
+  CURL_SOCKET_TIMEOUT = CURL_SOCKET_BAD
+  CURL_CSELECT_IN     = 0x01           
+  CURL_CSELECT_OUT    = 0x02           
+  CURL_CSELECT_ERR    = 0x04           
+  CURL_PUSH_OK        = 0              
+  CURL_PUSH_DENY      = 1              
 end

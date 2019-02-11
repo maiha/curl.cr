@@ -2,21 +2,25 @@ require "./info"
 
 class Curl::Easy
   def execute : Response
+    execute_before
+    execute_main
+    execute_after
+    return response
+  end
+
+  # must ensure idempotency
+  def execute_before
+    curl_easy_setopt(curl, CURLOPT_URL, uri.to_s)
+
     # TODO: dry up callback feature
     callback_auth!
     callback_behavior!
     callback_compress!
     callback_timeout!
-    
-    execute_curl
-  end
 
-  def execute_curl : Response
-    io = IO::Memory.new
-    
     callback = ->(ptr : Void*, size : LibC::SizeT) {
       logger.debug "received data: #{size} Bytes"
-      io.write(Slice.new(ptr.as(Pointer(UInt8)), size))
+      userdata.write(Slice.new(ptr.as(Pointer(UInt8)), size))
       size
     }
     boxed = Box.box(callback).as(Pointer(UInt8)) # box `callback` to `Void*`
@@ -28,14 +32,20 @@ class Curl::Easy
     
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, func)
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, boxed)
-    curl_easy_perform(curl)
+  end
 
-    info = build_info
+  def execute_main
+    curl_easy_perform(curl)
+  end
+
+  def execute_after
     logger.debug "TIMES overview\n%s" % info.times_overview
     logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
     logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
-    
-    io.rewind
-    return Response.new(io, info)
+  end
+
+  private def build_response : Response
+    userdata.rewind
+    return Response.new(userdata, info)
   end
 end
