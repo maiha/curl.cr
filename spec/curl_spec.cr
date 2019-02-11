@@ -32,6 +32,8 @@ describe Curl do
     res.info.starttransfer_time .should be_a(Float64)
     res.info.total_time         .should be_a(Float64)
     res.info.redirect_time      .should be_a(Float64)
+
+#    res.info.last_modified?     .should be_a(Time)
   end
 
   it "301" do
