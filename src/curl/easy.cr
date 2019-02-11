@@ -68,4 +68,15 @@ class Curl::Easy
   def self.new(url : String) : Curl::Easy
     new(URI.parse(url))
   end
+
+  ######################################################################
+  ### testing
+  def testing_sample!(url : String)
+    self.uri = url
+    curl_easy_setopt(curl, CURLOPT_HEADER, 0)
+    curl_easy_setopt(curl, CURLOPT_URL, url)
+    curl_easy_setopt(curl, CURLOPT_PRIVATE, url)
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 0)
+    curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, 2000)
+  end
 end

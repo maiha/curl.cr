@@ -19,7 +19,7 @@ class Curl::Easy
     callback_timeout!
 
     callback = ->(ptr : Void*, size : LibC::SizeT) {
-      logger.debug "received data: #{size} Bytes"
+      logger.debug "received data: #{size} Bytes" if verbose?
       userdata.write(Slice.new(ptr.as(Pointer(UInt8)), size))
       size
     }
@@ -39,12 +39,13 @@ class Curl::Easy
   end
 
   def execute_after
-    logger.debug "TIMES overview\n%s" % info.times_overview
-    logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
-    logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
   end
 
   private def build_response : Response
+    logger.debug "TIMES overview\n%s" % info.times_overview
+    logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
+    logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
+
     userdata.rewind
     return Response.new(userdata, info)
   end

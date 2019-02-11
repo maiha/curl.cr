@@ -1,5 +1,5 @@
 # const
-## Implemented 3% (28/920)
+## Implemented 3% (29/920)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLAUTH_ANY`                        |     ||
@@ -483,7 +483,7 @@
 |`CURLOPT_POSTREDIR`                   |     ||
 |`CURLOPT_PREQUOTE`                    |     ||
 |`CURLOPT_PRE_PROXY`                   |     ||
-|`CURLOPT_PRIVATE`                     |     ||
+|`CURLOPT_PRIVATE`                     |✓    ||
 |`CURLOPT_PROGRESSDATA`                |     ||
 |`CURLOPT_PROGRESSFUNCTION`            |     ||
 |`CURLOPT_PROTOCOLS`                   |     ||

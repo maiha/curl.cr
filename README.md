@@ -5,7 +5,7 @@ This is a handy wrapper for blocknotes's [curl-crystal](https://github.com/block
 
 - crystal-0.27.0 : https://crystal-lang.org/
 - curl-7_64_0 : https://github.com/curl/curl
-  - `Multi` interface requires 7.16.0 or above.
+  - `Multi` interface requires 7.28.0 or above.
 
 ## Installation
 

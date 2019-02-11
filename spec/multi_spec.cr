@@ -11,6 +11,7 @@ describe Curl::Multi do
     multi.run(timeout: 10.seconds)
 
     multi.requests.each do |easy|
+      puts "debug times"
       puts easy.response.info.times_overview
     end
 

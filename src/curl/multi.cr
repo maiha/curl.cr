@@ -7,22 +7,25 @@ class Curl::Multi
   include Api
 
   ######################################################################
+  ### Public variables
+
+  var requests = Array(Easy).new
+  var timeout    : Time::Span = 30.seconds
+  var started_at : Time
+  var stopped_at : Time
+
+  var logger = Logger.new(STDERR)
+
+  # polling
+  var polling_interval   = 0.1.seconds
+  var polling_timeout_ms = 1000
+  
+  ######################################################################
   ### Internal variables
 
   var multi : LibCurlMulti::Curlm*
   property still_running : Pointer(Int32) = Pointer(Int32).malloc(1_u64)
 
-  ######################################################################
-  ### Public variables
-
-  var requests = Array(Easy).new
-  var timeout    : Time::Span = 30.seconds
-  var interval   : Time::Span = 0.5.seconds
-  var started_at : Time
-  var stopped_at : Time
-
-  var logger = Logger.new(STDERR)
-  
   def initialize
     @multi = LibCurlMulti.curl_multi_init
     GC.add_finalizer(self)
@@ -32,6 +35,9 @@ class Curl::Multi
     LibCurlMulti.curl_multi_cleanup(multi)
   end
 
+  ######################################################################
+  ### Public methods
+
   def <<(easy : Easy) : Multi
     requests << easy
     easy.execute_before
@@ -40,24 +46,38 @@ class Curl::Multi
   end
 
   def run(timeout : Time::Span? = nil)
-    deadline = Time.now + (timeout || timeout())
-    logger.debug "Multi: requests started (until: '#{deadline}')"
-
     self.started_at = Time.now
-    while n = running?
+    timeout ||= timeout()
+    logger.debug "multi: started %d requests (timeout: %.3f sec)" % [requests.size, timeout.total_milliseconds/1000]
+
+    still_running = Pointer(Int32).malloc(1_u64)
+    curl_multi_perform(multi, still_running)
+
+    deadline = started_at + timeout
+    while true
+      numfds = Pointer(Int32).malloc(1_u64)
+      curl_multi_wait(multi, nil, 0, polling_timeout_ms, numfds)
+      # numfds: being zero means either a timeout or no file descriptors to wait for
+      logger.debug "multi: found %d events" % numfds.value
+      
+      curl_multi_perform(multi, still_running)
+      running = still_running.value
+      break if running == 0
+      logger.debug "multi: still %d requests are running" % running
+
       if Time.now > deadline
         self.stopped_at = Time.now
-        msg = "Multi: execution timeouted (remain: #{n} requests)"
-        logger.info msg
+        msg = "multi: execution timeouted (remain: %d requests)" % running
+        logger.warn msg
         raise IO::Timeout.new(msg)
       end
-      logger.debug "Multi: #{n} requests are running."
 
-      logger.debug "Multi: wait start"
-      numfds = Pointer(Int32).malloc(1_u64)
-      curl_multi_wait(multi, nil, 0, timeout.total_seconds, numfds)
-      logger.debug "Multi: wait done (numfds=%d)" % numfds.value
+      sleep polling_interval
     end
+
+  ensure
+    self.stopped_at = Time.now
+    logger.debug "multi: finished %d requests (%.3f sec)" % [requests.size, total_time.total_milliseconds/1000]
   end
 
   # return a number of the running requests, otherwise returns nil.

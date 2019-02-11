@@ -14,10 +14,14 @@ begin
   parser.on("-v", "set verbose output") { curl.verbose = true }
   parser.on("-d", "debug mode") { curl.logger.level = Logger::Severity::DEBUG }
   parser.parse!
-
+ 
   curl.uri = ARGV.shift? || raise ArgumentError.new("URL not found")
-  res = curl.get
-  print res.body
+  multi = Curl::Multi.new
+  multi.logger = curl.logger
+  multi << curl
+  multi.run(timeout: curl.timeout?)
+
+  print curl.response.body
 
 rescue err  
   if err.is_a?(ArgumentError)
