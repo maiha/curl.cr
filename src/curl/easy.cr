@@ -58,7 +58,7 @@ class Curl::Easy
   ### Internal
 
   var curl : LibCurl::CURL*
-  var status : Status = Status::NONE
+  var status : Status = Status::FREE
     
   def initialize
     @curl = LibCurl.curl_easy_init

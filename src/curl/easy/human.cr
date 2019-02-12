@@ -4,7 +4,7 @@ module Curl::Human
 
   def human_code(default = nil) : String
     case status
-    when .none? ; default || "---"
+    when .free? ; default || "---"
     when .run?  ; "RUN"
     when .done? ; (info.response_code == 0) ? "ERR" : info.response_code.to_s
     else        ; "BUG"         # enum error

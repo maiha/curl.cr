@@ -10,12 +10,7 @@ describe Curl::Multi do
 
     # Enumerable(Easy::Response)
     multi.map(&.code).should eq([0, 200, 200])
-    
-    multi.to_s.chomp.should eq <<-EOF
-      ERR http://127.0.0.1:4/
-      200 https://example.com
-      200 https://github.com
-      EOF
+    multi.human_code_counts.should eq({"ERR" => 1, "200" => 2})
   end
 
   it "Enumerable raises when not finished" do

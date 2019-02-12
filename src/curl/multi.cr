@@ -10,8 +10,6 @@ class Curl::Multi
   ######################################################################
   ### Public variables
 
-  private var requests  = Array(Easy).new
-  private var responses = Array(Easy::Response).new
   var timeout    : Time::Span = 30.seconds
   var started_at : Time
   var stopped_at : Time
@@ -26,8 +24,11 @@ class Curl::Multi
   ######################################################################
   ### Internal variables
 
-  var multi : LibCurlMulti::Curlm*
-  var status : Status = Status::NONE
+  private var multi  : LibCurlMulti::Curlm*
+  private var status : Status = Status::FREE
+
+  private var requests  = Array(Easy).new
+  private var responses = Array(Easy::Response).new
 
   def initialize
     @multi = LibCurlMulti.curl_multi_init
@@ -42,13 +43,15 @@ class Curl::Multi
   ### Public methods
 
   def <<(easy : Easy) : Multi
+    status.free!
+    
     requests << easy
     curl_multi_add_handle(multi, easy.curl)
     return self
   end
 
   def run(timeout : Time::Span? = nil)    
-    status.none? || raise Error.new("already executed. can't call 'run' twice")
+    status.free!
 
     self.status = Status::RUN
     
@@ -97,21 +100,10 @@ class Curl::Multi
   end
 
   def each
-    case status
-    when .done?
-      responses.each do |res|
-        yield res
-      end
-    else
-      raise NotFinished.new("Requests are not finished yet (#{status})")
+    status.done!
+    responses.each do |res|
+      yield res
     end
-  end
-  
-  # return a number of the running requests, otherwise returns nil.
-  def running? : Int32?
-    curl_multi_perform(multi, @still_running)
-    n = @still_running.value
-    return (n > 0) ? n : nil
   end
 
   def total_time : Time::Span
@@ -122,9 +114,25 @@ class Curl::Multi
     end
   end
 
+  def human_code_counts(default = "---") : Hash(String, Int32)
+    counts = Hash(String, Int32).new
+    each do |res|
+      key = res.human_code(default)
+      counts[key] = (counts[key]? || 0) + 1
+    end
+    return counts
+  end
+  
   def to_s(io : IO)
-    requests.each do |easy|
-      io.puts easy.to_s
+    case status
+    when .done?
+      each do |res|
+        io.puts res.to_s
+      end
+    else
+      requests.each do |easy|
+        io.puts easy.to_s
+      end
     end
   end
 end
