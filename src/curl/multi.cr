@@ -19,7 +19,7 @@ class Curl::Multi
   var logger = Logger.new(STDERR)
 
   # polling
-  var polling_interval   = 0.1.seconds
+  var polling_interval   = 0.seconds # 0.010.seconds
   var polling_timeout_ms = 1000
   
   ######################################################################
