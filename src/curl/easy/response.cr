@@ -3,12 +3,10 @@ class Curl::Easy::Response
 
   var url    : String
   var status : Status
-  var io     : IO
+  var output : Output
   var info   : Info
-  var body   : String
   
-  def initialize(@url : String, @status : Status, @info : Info, @io : IO)
-    io.rewind
+  def initialize(@url : String, @status : Status, @info : Info, @output : Output)
   end
 
   def code : Int32
@@ -16,7 +14,7 @@ class Curl::Easy::Response
   end
   
   def body : String
-    @body ||= (io.rewind; io.gets_to_end)
+    output.gets_to_end
   end
 
   def success? : Bool

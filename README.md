@@ -84,6 +84,15 @@ puts res.info.times_overview
 
 - See [src/curl/easy/info.cr](./src/curl/easy.cr) for all variables.
 
+### Write file
+
+By specifying the output file path with the `output` method, you can write it directly to a file instead of in-memory.
+
+```crystal
+curl = Curl::Easy.new("http://examples.com")
+curl.output = "index.html"
+```
+
 ### Compress
 
 Compression is enabled by default, but you can use three variables to control fine behavior. For example, it is possible to acquire route compressed `gzip` data as it is by requesting encoding by gzip compression and skipping decoding, as follows.

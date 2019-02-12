@@ -1,8 +1,6 @@
 require "./info"
 
 class Curl::Easy
-  var writedata = IO::Memory.new
-
   def execute : Response
     execute_before!
     execute_main
@@ -28,7 +26,7 @@ class Curl::Easy
     }
     
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, func)
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, writedata.as(Void*))
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, output_data.as(Void*))
 
     update_status!(Status::RUN)
   end
@@ -43,17 +41,14 @@ class Curl::Easy
   end
 
   private def build_response : Response
-    case status
-    when .done?
-      logger.debug "TIMES overview\n%s" % info.times_overview if verbose
-      logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
-      logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
+    status.done!
+    output_data.close
 
-      writedata.rewind
-      return Response.new(url, status, info, writedata)
-    else
-      raise NotFinished.new("Request is not finished yet (#{status})")
-    end
+    logger.debug "TIMES overview\n%s" % info.times_overview if verbose
+    logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
+    logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
+
+    return Response.new(url, status, info, output_data)
   end
 
   # [old implemented]

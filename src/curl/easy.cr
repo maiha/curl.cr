@@ -57,8 +57,8 @@ class Curl::Easy
   ######################################################################
   ### Internal
 
-  var curl : LibCurl::CURL*
-  var status : Status = Status::FREE
+  var curl : LibCurl::CURL*     # not private for the access from `multi`
+  private var status : Status = Status::FREE
     
   def initialize
     @curl = LibCurl.curl_easy_init

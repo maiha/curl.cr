@@ -19,10 +19,8 @@ describe Curl::Easy do
     res.code.should eq(200)
     res.body.should contain("Example Domain")
 
-    # IO
-    res.io.should be_a(IO)
-    res.io.rewind
-    res.io.gets_to_end.should contain("Example Domain")
+    # output
+    res.output.gets_to_end.should contain("Example Domain")
 
     # info (after request)
     res.info.response_code      .should eq(200)
@@ -63,5 +61,8 @@ describe Curl::Easy do
     curl.encoding = Curl::Easy::Encoding::GZIP
     curl.encoding = Curl::Easy::Encoding::DEFLATE
     curl.decoding = false
+    curl.output_data.memory?.should be_true
+    curl.output = "index.html"
+    curl.output_data.memory?.should be_false
   end
 end

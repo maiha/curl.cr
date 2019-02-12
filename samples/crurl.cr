@@ -6,6 +6,7 @@ begin
   curl.logger.level = Logger::Severity::INFO
 
   parser = OptionParser.new
+  parser.on("-o=<file>", "Write output to <file>") {|v| curl.output = v }
   parser.on("-u=<user:password>", "Server user and password") {|v| curl.basic_auth(v)}
   parser.on("--connect-timeout=<seconds>", "Maximum time allowed for connection") {|v| curl.connect_timeout = v.to_i32.seconds}
   parser.on("--timeout=<seconds>", "Maximum time allowed for timeout") {|v| curl.timeout = v.to_i32.seconds}
@@ -26,7 +27,11 @@ begin
     STDERR.puts res
   end
   STDERR.puts multi.summary
-  print curl.response.body
+
+  multi.each do |res|
+    output = res.output
+    puts output.gets_to_end if output.memory?
+  end
 
 rescue err  
   if err.is_a?(ArgumentError)
