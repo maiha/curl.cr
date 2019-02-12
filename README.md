@@ -35,18 +35,28 @@ res = curl.get
 res.code         # => 200
 res.content_type # => "text/html; charset=UTF-8"
 res.body         # => "<html>..."
+
+curl.to_s        # => "200 http://examples.com"
 ```
 
 See [src/curl/easy.cr](./src/curl/easy.cr) for all variables.
 
 ```crystal
+  var uri      : URI
+  var logger   : Logger
+  var response : Response
+  var info     : Info
+
+  # behavior
   var dump_header = false # Pass headers to the data stream
   var verbose     = false # Set verbose mode
   
   var timeout         : Time::Span
   var connect_timeout : Time::Span
 
-  var compressed = false # Request compressed response
+  var compress : Bool     = false
+  var encoding : Encoding = Encoding::ALL
+  var decoding : Bool     = true
 ```
 
 - See [doc/easy.md](./doc/easy.md) for implemented `Easy` functions.
@@ -58,6 +68,7 @@ See [src/curl/easy.cr](./src/curl/easy.cr) for all variables.
 ```crystal
 info = curl.get.info
 info.namelookup_time # => 0.00439
+info.to_s            # => "[10.0KB](232KB/s, 0.0s)"
 puts res.info.times_overview
 ```
 
@@ -73,6 +84,15 @@ puts res.info.times_overview
 
 - See [src/curl/easy/info.cr](./src/curl/easy.cr) for all variables.
 
+### Compress
+
+Compression is enabled by default, but you can use three variables to control fine behavior. For example, it is possible to acquire route compressed `gzip` data as it is by requesting encoding by gzip compression and skipping decoding, as follows.
+
+```crystal
+curl.compress = true
+curl.encoding = Curl::Easy::Encoding::GZIP
+curl.decoding = false
+```
 
 ## Multi Interface
 
@@ -100,7 +120,11 @@ multi.requests.map(&.response.code) # => [200, 200]
   - Callback
     - [ ] before_execute
   - Compress
-    - [x] #compressed=(v : Bool)
+    - [x] #compress=(v : Bool)           # control 'Accept-Encoding' header
+    - [x] #encoding=(v : Easy::Encoding) # specify the value of encoding
+    - [x] #decoding=(v : Bool)           # control automatic decompression
+  - Info
+    - [x] times stats
   - Logging
     - [x] #logger
   - Response
@@ -122,9 +146,10 @@ multi.requests.map(&.response.code) # => [200, 200]
   - [ ] #post
   - [ ] #put
 - Multi Interface : https://curl.haxx.se/libcurl/c/libcurl-multi.html
-  - [ ] #get
-  - [ ] #post
-  - [ ] #put
+  - [x] #<<(easy : Easy)
+  - [x] #run(timeout)
+  - [x] #requests : Array(Easy)
+  - [x] #responses : Array(Multi::Response)
 
 ## Sample
 

@@ -16,7 +16,9 @@ class Curl::Easy
   var timeout         : Time::Span
   var connect_timeout : Time::Span
 
-  var compressed = false # Request compressed response
+  var compress : Bool     = true
+  var encoding : Encoding = Encoding::ALL
+  var decoding : Bool     = true
 
   ######################################################################
   ### Public methods
@@ -64,7 +66,6 @@ class Curl::Easy
 
   var curl : LibCurl::CURL*
   var status : Status = Status::NONE
-  var userdata = IO::Memory.new
     
   def initialize
     @curl = LibCurl.curl_easy_init

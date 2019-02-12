@@ -1,5 +1,5 @@
 # const
-## Implemented 3% (29/920)
+## Implemented 3% (30/920)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLAUTH_ANY`                        |     ||
@@ -419,7 +419,7 @@
 |`CURLOPT_HTTPPOST`                    |     ||
 |`CURLOPT_HTTPPROXYTUNNEL`             |     ||
 |`CURLOPT_HTTPREQUEST`                 |     ||
-|`CURLOPT_HTTP_CONTENT_DECODING`       |     ||
+|`CURLOPT_HTTP_CONTENT_DECODING`       |✓    ||
 |`CURLOPT_HTTP_TRANSFER_DECODING`      |     ||
 |`CURLOPT_HTTP_VERSION`                |     ||
 |`CURLOPT_TRAILERFUNCTION`             |     ||

@@ -17,7 +17,8 @@ class Curl::Multi
   var started_at : Time
   var stopped_at : Time
 
-  var logger = Logger.new(STDERR)
+  var logger  = Logger.new(STDERR)
+  var verbose = false
 
   # polling
   var polling_interval   = 0.seconds # 0.010.seconds
@@ -68,12 +69,12 @@ class Curl::Multi
       numfds = Pointer(Int32).malloc(1_u64)
       curl_multi_wait(multi, nil, 0, polling_timeout_ms, numfds)
       # numfds: being zero means either a timeout or no file descriptors to wait for
-      logger.debug "multi: found %d events" % numfds.value
+      # logger.debug "multi: found %d events" % numfds.value
       
       curl_multi_perform(multi, still_running)
       running = still_running.value
       break if running == 0
-      logger.debug "multi: still %d requests are running" % running
+      logger.debug "multi: %d requests are running" % running if verbose
 
       if Time.now > deadline
         self.stopped_at = Time.now

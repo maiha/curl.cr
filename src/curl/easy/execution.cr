@@ -1,6 +1,8 @@
 require "./info"
 
 class Curl::Easy
+  var writedata = IO::Memory.new
+
   def execute : Response
     execute_before!
     execute_main
@@ -11,6 +13,46 @@ class Curl::Easy
   # must ensure idempotency
   # bang means updating `status`
   def execute_before!
+    curl_easy_setopt(curl, CURLOPT_URL, uri.to_s)
+
+    # TODO: dry up callback feature
+    callback_auth!
+    callback_behavior!
+    callback_compress!
+    callback_timeout!
+
+    func = ->(ptr : UInt8*, size : LibC::SizeT, nmemb : LibC::SizeT, data : Void*) {
+      bytes = Bytes.new(ptr, size * nmemb)
+      data.as(IO).write(bytes)
+      size * nmemb
+    }
+    
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, func)
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, writedata.as(Void*))
+
+    update_status!(Status::RUN)
+  end
+
+  def execute_main
+    curl_easy_perform(curl)
+  end
+
+  # bang means updating `status`
+  def execute_after!
+    update_status!(Status::DONE)
+  end
+
+  private def build_response : Response
+    logger.debug "TIMES overview\n%s" % info.times_overview if verbose
+    logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
+    logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
+
+    writedata.rewind
+    return Response.new(writedata, info)
+  end
+
+  # [old implemented]
+  private def __boxed__execute_before!
     curl_easy_setopt(curl, CURLOPT_URL, uri.to_s)
 
     # TODO: dry up callback feature
@@ -35,23 +77,5 @@ class Curl::Easy
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, boxed)
 
     update_status!(Status::RUN)
-  end
-
-  def execute_main
-    curl_easy_perform(curl)
-  end
-
-  # bang means updating `status`
-  def execute_after!
-    update_status!(Status::DONE)
-  end
-
-  private def build_response : Response
-    logger.debug "TIMES overview\n%s" % info.times_overview
-    logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
-    logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
-
-    userdata.rewind
-    return Response.new(userdata, info)
   end
 end

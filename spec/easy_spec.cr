@@ -48,11 +48,20 @@ describe Curl::Easy do
   
   it "Failed to connect to invalid server" do
     curl = Curl::Easy.new("http://127.0.0.1:4/")
-    curl.basic_auth("a:b")
     expect_raises(Curl::Easy::Error, /Failed to connect/) do
       curl.get
     end
 
     curl.to_s.should eq("RUN http://127.0.0.1:4/")
+  end
+
+  it "compiles to test variables" do
+    curl = Curl::Easy.new("http://127.0.0.1:4/")
+    curl.basic_auth("a:b")
+    curl.compress = true
+    curl.encoding = Curl::Easy::Encoding::ALL
+    curl.encoding = Curl::Easy::Encoding::GZIP
+    curl.encoding = Curl::Easy::Encoding::DEFLATE
+    curl.decoding = false
   end
 end
