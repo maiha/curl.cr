@@ -6,6 +6,8 @@ require "./multi/*"
 class Curl::Multi
   include Api
 
+  record Result, url : String, code : Int32, info : Easy::Info
+
   ######################################################################
   ### Public variables
 
@@ -93,5 +95,9 @@ class Curl::Multi
     else
       0.seconds
     end
+  end
+
+  def to_s(io : IO)
+    
   end
 end

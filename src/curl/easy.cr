@@ -2,12 +2,6 @@ require "./easy/*"
 
 class Curl::Easy
   ######################################################################
-  ### Internal variables
-
-  var curl : LibCurl::CURL* 
-  var userdata = IO::Memory.new
-    
-  ######################################################################
   ### Public variables
 
   var uri      : URI
@@ -24,6 +18,43 @@ class Curl::Easy
 
   var compressed = false # Request compressed response
 
+  ######################################################################
+  ### Public methods
+
+  def port : Int32
+    uri?.try{|u| u.port || URI.default_port(u.scheme.to_s)} || 80
+  end
+
+  def uri=(url : String)
+    update_uri!(url)
+  end
+
+  def get(path : String? = nil) : Response
+    update_uri!(path)
+    return execute
+  end
+  
+  def self.new(uri : URI) : Curl::Easy
+    new.tap(&.uri = uri)
+  end
+
+  def self.new(url : String) : Curl::Easy
+    new(URI.parse(url))
+  end
+
+  ######################################################################
+  ### Internal
+
+  enum Status
+    NONE
+    RUN
+    DONE
+  end
+  
+  var curl : LibCurl::CURL*
+  var status : Status = Status::NONE
+  var userdata = IO::Memory.new
+    
   def initialize
     @curl = LibCurl.curl_easy_init
     GC.add_finalizer(self)
@@ -33,12 +64,10 @@ class Curl::Easy
     LibCurl.curl_easy_cleanup(curl)
   end
 
-  def port : Int32
-    uri?.try{|u| u.port || URI.default_port(u.scheme.to_s)} || 80
-  end
-
-  def uri=(url : String)
-    update_uri!(url)
+  protected def update_status!(status : Status)
+    # clear variables that related to status
+    @response = nil
+    @info     = nil
   end
 
   protected def update_uri!(path : String? = nil)
@@ -56,19 +85,6 @@ class Curl::Easy
     end
   end
   
-  def get(path : String? = nil) : Response
-    update_uri!(path)
-    return execute
-  end
-  
-  def self.new(uri : URI) : Curl::Easy
-    new.tap(&.uri = uri)
-  end
-
-  def self.new(url : String) : Curl::Easy
-    new(URI.parse(url))
-  end
-
   ######################################################################
   ### testing
   def testing_sample!(url : String)

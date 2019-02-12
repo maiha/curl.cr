@@ -6,7 +6,11 @@ describe Curl::Easy do
     curl.connect_timeout = 3.seconds
     curl.timeout = 10.seconds
     curl.dump_header = true
-    
+
+    # info (before request)
+    curl.info.response_code.should eq(0)
+
+    # execute
     res = curl.get
 
     # basic
@@ -19,7 +23,7 @@ describe Curl::Easy do
     res.io.rewind
     res.io.gets_to_end.should contain("Example Domain")
 
-    # info
+    # info (after request)
     res.info.response_code      .should eq(200)
     res.info.http_version       .should eq(Curl::CURL_HTTP_VERSION_1_1.value)
     res.info.content_type       .should eq("text/html; charset=UTF-8")

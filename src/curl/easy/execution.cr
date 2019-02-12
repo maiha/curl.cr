@@ -35,10 +35,12 @@ class Curl::Easy
   end
 
   def execute_main
+    update_status!(Status::RUN)
     curl_easy_perform(curl)
   end
 
   def execute_after
+    update_status!(Status::DONE)
   end
 
   private def build_response : Response
