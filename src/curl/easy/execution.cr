@@ -28,6 +28,7 @@ class Curl::Easy
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, func)
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, output_data.as(Void*))
 
+    output_data.begin
     update_status!(Status::RUN)
   end
 
@@ -38,11 +39,11 @@ class Curl::Easy
   # bang means updating `status`
   def execute_after!
     update_status!(Status::DONE)
+    output_data.commit
   end
 
   private def build_response : Response
     status.done!
-    output_data.close
 
     logger.debug "TIMES overview\n%s" % info.times_overview if verbose
     logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)

@@ -1,17 +1,20 @@
 # Common interface for writing to either memory or file
 abstract class Curl::Output < IO
+  # `Easy::Response#body` requires all data as `String`.
   abstract def gets_to_end : String
-  abstract def close : Nil
+
+  # `Easy#execute_before` fires this
+  abstract def begin : Nil
+
+  # `Easy#execute_after` fires this
+  abstract def commit : Nil
+
+  # `Easy#execute_after` fires this
+  abstract def abort : Nil
+
+  # Whether is this io is file-based or in-memory?
   abstract def file? : Bool
   abstract def memory? : Bool
-
-  def self.memory
-    Curl::MemOutput.new
-  end
-
-  def self.file(path : String)
-    Curl::FileOutput.new(path)
-  end
 end
 
 class Curl::MemOutput < Curl::Output
@@ -29,38 +32,59 @@ class Curl::MemOutput < Curl::Output
     io.gets_to_end
   end
 
-  def close
+  def begin
+  end
+
+  def commit
+  end
+
+  def abort
   end
 end
 
 class Curl::FileOutput < Curl::Output
   var file   = true
   var memory = false
-  var io : IO
-  delegate read, to: io
+  var io_tmp : IO
 
   var path   : String
+  var tmp    : String
   var status : Status = Status::FREE
 
   def initialize(@path : String)
+    self.tmp = "#{path}.tmp"
   end
 
+  def read(slice : Bytes) : Nil
+    raise NotImplementedError.new("[BUG] #{self.class.name}#read should not be called.")
+  end
+  
   def write(slice : Bytes) : Nil
-    ensure_write!
-    io.write(slice)
+    io_tmp.write(slice)
   end
   
   def gets_to_end : String
     File.read(path)
   end
 
-  def close
-    @io.try(&.close)
-    @io = nil
+  def begin
+    ensure_write!
+  end
+
+  def commit
+    if io = io_tmp?
+      io.close
+      File.rename(tmp, path)
+      @io_tmp = nil
+    end
+  end
+
+  def abort
   end
 
   protected def ensure_write!
-    Dir.mkdir_p(File.dirname(path))
-    @io ||= File.open(path, "w+")
+    File.delete(path) if File.exists?(path)
+    Dir.mkdir_p(File.dirname(tmp))
+    @io_tmp ||= File.open(tmp, "w+")
   end
 end

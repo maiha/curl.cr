@@ -39,6 +39,19 @@ describe Curl::Easy do
 #    res.info.last_modified?     .should be_a(Time)
   end
 
+  it "output to file" do
+    path = "tmp/out1"
+    File.delete(path) if File.exists?(path)
+
+    curl = Curl::Easy.new("https://example.com")
+    curl.output = path
+    res = curl.get
+
+    File.exists?(path).should be_true
+    res.body.should contain("Example Domain")
+    File.read(path).should contain("Example Domain")
+  end
+  
   it "301" do
     curl = Curl::Easy.new("http://github.com")
     curl.get.code.should eq(301)
