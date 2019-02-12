@@ -65,6 +65,26 @@ class Curl::Easy
         s.puts "(%.3fs) |--|--|--|--|--|--REDIRECT" % redirect_time
       end.chomp
     end
+
+    def human_size_download : String
+      buf = Pretty.bytes(size_download)  # => "6.5 MB"
+      buf.delete(" ")                    # => "6.5MB"
+    end
+
+    def human_speed_download : String
+      buf = Pretty.bytes(speed_download) # => "54.2 MB"
+      buf.delete(" ") + "/s"             # => "52.2MB/s"
+    end
+
+    def human_total_time(fmt = "%.1fs")
+      fmt % total_time                   # => "13.1s"
+    end
+    
+    # "[6.5MB](54.2MB/s, 13.1s)"
+    def to_s(io : IO)
+      io << "[%s]" % human_size_download
+      io << "(%s, %s)" % [human_speed_download, human_total_time]
+    end
   end
 
   protected def build_info : Info

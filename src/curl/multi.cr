@@ -12,6 +12,7 @@ class Curl::Multi
   ### Public variables
 
   var requests = Array(Easy).new
+  var results  = Array(Result).new
   var timeout    : Time::Span = 30.seconds
   var started_at : Time
   var stopped_at : Time
@@ -26,7 +27,7 @@ class Curl::Multi
   ### Internal variables
 
   var multi : LibCurlMulti::Curlm*
-  property still_running : Pointer(Int32) = Pointer(Int32).malloc(1_u64)
+  var status : Status = Status::NONE
 
   def initialize
     @multi = LibCurlMulti.curl_multi_init
@@ -42,12 +43,19 @@ class Curl::Multi
 
   def <<(easy : Easy) : Multi
     requests << easy
-    easy.execute_before
     curl_multi_add_handle(multi, easy.curl)
     return self
   end
 
-  def run(timeout : Time::Span? = nil)
+  def run(timeout : Time::Span? = nil)    
+    status.none? || raise Error.new("already executed. can't call 'run' twice")
+
+    self.status = Status::RUN
+    
+    requests.each do |easy|
+      easy.execute_before!
+    end
+    
     self.started_at = Time.now
     timeout ||= timeout()
     logger.debug "multi: started %d requests (timeout: %.3f sec)" % [requests.size, timeout.total_milliseconds/1000]
@@ -79,7 +87,14 @@ class Curl::Multi
 
   ensure
     self.stopped_at = Time.now
+    self.status = Status::DONE
     logger.debug "multi: finished %d requests (%.3f sec)" % [requests.size, total_time.total_milliseconds/1000]
+
+    requests.each do |easy|
+      easy.execute_after!
+      info = easy.info
+      results << Result.new(easy.url, info.response_code, info)
+    end
   end
 
   # return a number of the running requests, otherwise returns nil.
@@ -98,6 +113,8 @@ class Curl::Multi
   end
 
   def to_s(io : IO)
-    
+    requests.each do |easy|
+      io.puts easy.to_s
+    end
   end
 end

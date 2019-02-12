@@ -9,6 +9,7 @@ describe Curl::Easy do
 
     # info (before request)
     curl.info.response_code.should eq(0)
+    curl.human_code.should eq("---")
 
     # execute
     res = curl.get
@@ -51,5 +52,7 @@ describe Curl::Easy do
     expect_raises(Curl::Easy::Error, /Failed to connect/) do
       curl.get
     end
+
+    curl.to_s.should eq("RUN http://127.0.0.1:4/")
   end
 end

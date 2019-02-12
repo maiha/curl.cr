@@ -21,6 +21,9 @@ begin
   multi << curl
   multi.run(timeout: curl.timeout?)
 
+  multi.requests.each do |easy|
+    STDERR.puts "%s %s" % [easy, easy.info]
+  end
   print curl.response.body
 
 rescue err  

@@ -2,14 +2,15 @@ require "./info"
 
 class Curl::Easy
   def execute : Response
-    execute_before
+    execute_before!
     execute_main
-    execute_after
+    execute_after!
     return response
   end
 
   # must ensure idempotency
-  def execute_before
+  # bang means updating `status`
+  def execute_before!
     curl_easy_setopt(curl, CURLOPT_URL, uri.to_s)
 
     # TODO: dry up callback feature
@@ -32,14 +33,16 @@ class Curl::Easy
     
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, func)
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, boxed)
+
+    update_status!(Status::RUN)
   end
 
   def execute_main
-    update_status!(Status::RUN)
     curl_easy_perform(curl)
   end
 
-  def execute_after
+  # bang means updating `status`
+  def execute_after!
     update_status!(Status::DONE)
   end
 

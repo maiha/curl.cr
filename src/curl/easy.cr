@@ -29,9 +29,26 @@ class Curl::Easy
     update_uri!(url)
   end
 
+  def url : String
+    uri.to_s
+  end
+  
   def get(path : String? = nil) : Response
     update_uri!(path)
     return execute
+  end
+
+  def human_code(default = nil) : String
+    case status
+    when .none? ; default || "---"
+    when .run?  ; "RUN"
+    when .done? ; (info.response_code == 0) ? "ERR" : info.response_code.to_s
+    else        ; "BUG"         # enum error
+    end
+  end
+  
+  def to_s(io : IO)
+    io << "%s %s" % [human_code, url]
   end
   
   def self.new(uri : URI) : Curl::Easy
@@ -45,12 +62,6 @@ class Curl::Easy
   ######################################################################
   ### Internal
 
-  enum Status
-    NONE
-    RUN
-    DONE
-  end
-  
   var curl : LibCurl::CURL*
   var status : Status = Status::NONE
   var userdata = IO::Memory.new
@@ -65,7 +76,8 @@ class Curl::Easy
   end
 
   protected def update_status!(status : Status)
-    # clear variables that related to status
+    self.status = status
+    # clear variables that related to the status
     @response = nil
     @info     = nil
   end

@@ -50,6 +50,7 @@ module Curl
 end
 
 require "./curl/error"
+require "./curl/status"
 require "./curl/easy"
 require "./curl/multi"
 require "./curl/multi_socket_action"
