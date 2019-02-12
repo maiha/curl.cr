@@ -49,8 +49,7 @@ module Curl
   LibCurl.curl_global_init(CURL_GLOBAL_ALL)
 end
 
-require "./curl/error"
-require "./curl/status"
+require "./curl/core/*"
 require "./curl/easy"
 require "./curl/multi"
 require "./curl/multi_socket_action"

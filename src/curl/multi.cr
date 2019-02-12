@@ -5,14 +5,13 @@ require "./multi/*"
 
 class Curl::Multi
   include Api
-
-  record Result, url : String, code : Int32, info : Easy::Info
+  include Enumerable(Easy::Response)
 
   ######################################################################
   ### Public variables
 
-  var requests = Array(Easy).new
-  var results  = Array(Result).new
+  private var requests  = Array(Easy).new
+  private var responses = Array(Easy::Response).new
   var timeout    : Time::Span = 30.seconds
   var started_at : Time
   var stopped_at : Time
@@ -93,11 +92,21 @@ class Curl::Multi
 
     requests.each do |easy|
       easy.execute_after!
-      info = easy.info
-      results << Result.new(easy.url, info.response_code, info)
+      responses << easy.response
     end
   end
 
+  def each
+    case status
+    when .done?
+      responses.each do |res|
+        yield res
+      end
+    else
+      raise NotFinished.new("Requests are not finished yet (#{status})")
+    end
+  end
+  
   # return a number of the running requests, otherwise returns nil.
   def running? : Int32?
     curl_multi_perform(multi, @still_running)

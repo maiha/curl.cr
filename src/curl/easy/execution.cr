@@ -43,12 +43,17 @@ class Curl::Easy
   end
 
   private def build_response : Response
-    logger.debug "TIMES overview\n%s" % info.times_overview if verbose
-    logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
-    logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
+    case status
+    when .done?
+      logger.debug "TIMES overview\n%s" % info.times_overview if verbose
+      logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
+      logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
 
-    writedata.rewind
-    return Response.new(writedata, info)
+      writedata.rewind
+      return Response.new(url, status, info, writedata)
+    else
+      raise NotFinished.new("Request is not finished yet (#{status})")
+    end
   end
 
   # [old implemented]
