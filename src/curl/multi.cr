@@ -122,6 +122,12 @@ class Curl::Multi
     end
     return counts
   end
+
+  def summary : String
+    sec  = total_time.total_seconds
+    cnts = human_code_counts.inspect
+    "%d Requests (%.1fs) %s" % [size, sec, cnts]
+  end
   
   def to_s(io : IO)
     case status

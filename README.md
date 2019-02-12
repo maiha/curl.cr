@@ -108,6 +108,7 @@ multi.run(timeout: 10.seconds)
 
 multi.map(&.code)       # => [200, 200]
 multi.human_code_counts # => {"200" => 2}
+multi.summary           # => "2 Requests (0.5s) {\"200\" => 2}"
 ```
 
 - See [doc/multi.md](./doc/multi.md) for implemented `Multi` functions.

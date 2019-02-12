@@ -25,6 +25,7 @@ begin
   multi.each do |res|
     STDERR.puts res
   end
+  STDERR.puts multi.summary
   print curl.response.body
 
 rescue err  

@@ -11,6 +11,7 @@ describe Curl::Multi do
     # Enumerable(Easy::Response)
     multi.map(&.code).should eq([0, 200, 200])
     multi.human_code_counts.should eq({"ERR" => 1, "200" => 2})
+    multi.summary.should match(/^3 Requests/)
   end
 
   it "Enumerable raises when not finished" do
