@@ -1,4 +1,9 @@
 language: crystal
 sudo: false
+addons:
+  apt:
+    packages:
+      - libcurl4-openssl-dev
+      - libidn2-0-dev
 script:
-  - make test
+  - make spec

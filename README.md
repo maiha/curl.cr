@@ -1,4 +1,4 @@
-# curl.cr
+# curl.cr [![Build Status](https://travis-ci.org/maiha/curl.cr.svg?branch=master)](https://travis-ci.org/maiha/curl.cr)
 
 High level curl library for Crystal.
 This is a handy wrapper for blocknotes's [curl-crystal](https://github.com/blocknotes/curl-crystal)
@@ -177,6 +177,11 @@ curl is a very multifunctional and large library, and the functionality implemen
 ```console
 $ make spec
 ```
+
+Here, `libcurl.*` is needed. For ubuntu, it can be installed by following packages.
+- libcurl4-openssl-dev
+- libidn2-0-dev
+
 ### Constants
 
 All constants in `libcurl` are mapped to `Curl::XXX`.
