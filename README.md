@@ -25,7 +25,8 @@ Easy Interface is standard api that provides **synchronous** access, and well us
 
 ## Easy Interface
 
-`Curl::Easy#get` returns `Curl::Easy::Response`.
+- `Curl::Easy#get` returns `Curl::Easy::Response`.
+- `Curl::Easy::Response#response` returns `HTTP::Client::Response`.
 
 ```crystal
 require "curl"
@@ -34,6 +35,7 @@ curl = Curl::Easy.new("http://examples.com")
 res = curl.get
 res.code         # => 200
 res.content_type # => "text/html; charset=UTF-8"
+res.headers      # => HTTP::Headers{"content-type" => "text/html", ...
 res.body         # => "<html>..."
 
 curl.to_s        # => "200 http://examples.com"

@@ -1,6 +1,7 @@
 # stdlib
 require "uri"
 require "logger"
+require "http"
 
 # shards
 require "curl-crystal"

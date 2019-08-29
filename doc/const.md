@@ -1,5 +1,5 @@
 # const
-## Implemented 3% (30/933)
+## Implemented 3% (32/933)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLALTSVC_ALTUSED`                  |     ||
@@ -417,8 +417,8 @@
 |`CURLOPT_HAPPY_EYEBALLS_TIMEOUT_MS`   |     ||
 |`CURLOPT_HAPROXYPROTOCOL`             |     ||
 |`CURLOPT_HEADER`                      |✓    ||
-|`CURLOPT_HEADERDATA`                  |     ||
-|`CURLOPT_HEADERFUNCTION`              |     ||
+|`CURLOPT_HEADERDATA`                  |✓    ||
+|`CURLOPT_HEADERFUNCTION`              |✓    ||
 |`CURLOPT_HEADEROPT`                   |     ||
 |`CURLOPT_HTTP09_ALLOWED`              |     ||
 |`CURLOPT_HTTP200ALIASES`              |     ||

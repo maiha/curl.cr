@@ -3,16 +3,20 @@ class Curl::Easy::Response
 
   var url    : String
   var status : Status
+  var header : String
   var output : Output
   var info   : Info
-  
-  def initialize(@url : String, @status : Status, @info : Info, @output : Output)
+
+  # compats with HTTP::Client::Response
+  var response : HTTP::Client::Response = build_response
+
+  def initialize(@url : String, @status : Status, @info : Info, @header : String, @output : Output)
   end
 
   def code : Int32
     info.response_code
   end
-  
+
   def body : String
     output.gets_to_end
   end
@@ -23,5 +27,24 @@ class Curl::Easy::Response
 
   def to_s(io : IO)
     io << "%s %s %s" % [human_code, url, info]
+  end
+
+  ######################################################################
+  ### compats with HTTP::Client::Response
+
+  delegate headers, to: response
+
+  # header
+  # ```text
+  # HTTP/1.1 200 OK
+  # Content-Encoding: gzip
+  # ...
+  # ```
+  
+  def build_response
+    io = IO::Memory.new
+    io.print header
+    io.rewind
+    HTTP::Client::Response.from_io(io, ignore_body: true, decompress: false)
   end
 end

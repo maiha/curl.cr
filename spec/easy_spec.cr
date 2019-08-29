@@ -18,9 +18,19 @@ describe Curl::Easy do
     res.success?.should be_true
     res.code.should eq(200)
     res.body.should contain("Example Domain")
+    res.header.should match /^HTTP.*200 OK/
 
     # output
     res.output.gets_to_end.should contain("Example Domain")
+
+    # compats with HTTP::Client::Response
+    http_res = res.response
+    http_res.should be_a HTTP::Client::Response
+    http_res.status_code.should eq(200)
+    http_res.headers.should be_a HTTP::Headers
+    http_res.headers["Content-Type"]?.should eq "text/html; charset=UTF-8"
+    # shortcuts
+    res.headers.should eq(http_res.headers)
 
     # info (after request)
     res.info.response_code      .should eq(200)

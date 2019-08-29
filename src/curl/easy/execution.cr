@@ -18,15 +18,8 @@ class Curl::Easy
     callback_behavior!
     callback_compress!
     callback_timeout!
-
-    func = ->(ptr : UInt8*, size : LibC::SizeT, nmemb : LibC::SizeT, data : Void*) {
-      bytes = Bytes.new(ptr, size * nmemb)
-      data.as(IO).write(bytes)
-      size * nmemb
-    }
-    
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, func)
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, output_data.as(Void*))
+    callback_header!
+    callback_output!
 
     output_data.begin
     update_status!(Status::RUN)
@@ -49,7 +42,8 @@ class Curl::Easy
     logger.debug "Downloaded %s" % Pretty.bytes(info.size_download.ceil)
     logger.debug "Download speed %s/sec" % Pretty.bytes(info.speed_download.ceil)
 
-    return Response.new(url, status, info, output_data)
+    header = header_data.gets_to_end
+    return Response.new(url, status, info, header, output_data)
   end
 
   # [old implemented]
