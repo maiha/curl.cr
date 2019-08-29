@@ -1,7 +1,7 @@
 # This file is managed by 'gen/const.cr'. Do not edit.
 #
-# src: https://github.com/curl/curl/blob/curl-7_64_0/include/curl/curl.h
-# src: https://github.com/curl/curl/blob/curl-7_64_0/include/curl/multi.h
+# src: https://github.com/curl/curl/blob/curl-7_65_3/include/curl/curl.h
+# src: https://github.com/curl/curl/blob/curl-7_65_3/include/curl/multi.h
 #
 # Run 'make gen' to update
 #
@@ -10,9 +10,10 @@ module LibCurlConst
   # CURL_SOCKET_BAD INVALID_SOCKET 
   # CURL_SOCKET_BAD -1 
 
-  CURLSSLBACKEND_LIBRESSL  = CURLSSLBACKEND_OPENSSL
-  CURLSSLBACKEND_BORINGSSL = CURLSSLBACKEND_OPENSSL
-  CURLSSLBACKEND_CYASSL    = CURLSSLBACKEND_WOLFSSL
+  CURLSSLBACKEND_LIBRESSL  = CURLSSLBACKEND_OPENSSL        
+  CURLSSLBACKEND_BORINGSSL = CURLSSLBACKEND_OPENSSL        
+  CURLSSLBACKEND_CYASSL    = CURLSSLBACKEND_WOLFSSL        
+  CURLSSLBACKEND_DARWINSSL = CURLSSLBACKEND_SECURETRANSPORT
 
   CURL_HTTPPOST_FILENAME    = (1<<0)    
   CURL_HTTPPOST_READFILE    = (1<<1)    
@@ -144,6 +145,13 @@ module LibCurlConst
   CURLHEADER_UNIFIED  = 0     
   CURLHEADER_SEPARATE = (1<<0)
 
+  CURLALTSVC_IMMEDIATELY  = (1<<0)
+  CURLALTSVC_ALTUSED      = (1<<1)
+  CURLALTSVC_READONLYFILE = (1<<2)
+  CURLALTSVC_H1           = (1<<3)
+  CURLALTSVC_H2           = (1<<4)
+  CURLALTSVC_H3           = (1<<5)
+
   CURLPROTO_HTTP   = (1<<0) 
   CURLPROTO_HTTPS  = (1<<1) 
   CURLPROTO_FTP    = (1<<2) 
@@ -174,11 +182,12 @@ module LibCurlConst
   CURLPROTO_SMBS   = (1<<27)
   CURLPROTO_ALL    = (~0)    # enable everything
 
-  CURLOPTTYPE_LONG          = 0    
-  CURLOPTTYPE_OBJECTPOINT   = 10000
-  CURLOPTTYPE_STRINGPOINT   = 10000
-  CURLOPTTYPE_FUNCTIONPOINT = 20000
-  CURLOPTTYPE_OFF_T         = 30000
+  CURLOPTTYPE_LONG          = 0                      
+  CURLOPTTYPE_OBJECTPOINT   = 10000                  
+  CURLOPTTYPE_FUNCTIONPOINT = 20000                  
+  CURLOPTTYPE_OFF_T         = 30000                  
+  CURLOPTTYPE_STRINGPOINT   = CURLOPTTYPE_OBJECTPOINT
+  CURLOPTTYPE_SLISTPOINT    = CURLOPTTYPE_OBJECTPOINT
 
   CURLOPT_XFERINFODATA            = CURLOPT_PROGRESSDATA        
   CURLOPT_SERVER_RESPONSE_TIMEOUT = CURLOPT_FTP_RESPONSE_TIMEOUT
@@ -248,6 +257,7 @@ module LibCurlConst
   CURL_VERSION_HTTPS_PROXY  = (1<<21)  # HTTPS-proxy support built-in
   CURL_VERSION_MULTI_SSL    = (1<<22)  # Multiple SSL backends available
   CURL_VERSION_BROTLI       = (1<<23)  # Brotli features are present.
+  CURL_VERSION_ALTSVC       = (1<<24)  # Alt-Svc handling built-in
 
   CURLPAUSE_RECV      = (1<<0)                                   
   CURLPAUSE_RECV_CONT = (0)                                      

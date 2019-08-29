@@ -1,6 +1,6 @@
 # This file is managed by 'gen/symbols.cr'. Do not edit.
 #
-# src: https://github.com/curl/curl/blob/curl-7_64_0/docs/libcurl/symbols-in-versions
+# src: https://github.com/curl/curl/blob/curl-7_65_3/docs/libcurl/symbols-in-versions
 #
 # Run "make gen" to update
 #
@@ -17,6 +17,12 @@ module LibCurlSymbols
     removed    : String
 
   CurlSymbols = [
+    CurlSymbol.new("CURLALTSVC_ALTUSED"                  , "7.64.1", ""      , ""),
+    CurlSymbol.new("CURLALTSVC_H1"                       , "7.64.1", ""      , ""),
+    CurlSymbol.new("CURLALTSVC_H2"                       , "7.64.1", ""      , ""),
+    CurlSymbol.new("CURLALTSVC_H3"                       , "7.64.1", ""      , ""),
+    CurlSymbol.new("CURLALTSVC_IMMEDIATELY"              , "7.64.1", ""      , ""),
+    CurlSymbol.new("CURLALTSVC_READONLYFILE"             , "7.64.1", ""      , ""),
     CurlSymbol.new("CURLAUTH_ANY"                        , "7.10.6", ""      , ""),
     CurlSymbol.new("CURLAUTH_ANYSAFE"                    , "7.10.6", ""      , ""),
     CurlSymbol.new("CURLAUTH_BASIC"                      , "7.10.6", ""      , ""),
@@ -344,10 +350,13 @@ module LibCurlSymbols
     CurlSymbol.new("CURLOPTTYPE_OBJECTPOINT"             , "7.1"   , ""      , ""),
     CurlSymbol.new("CURLOPTTYPE_OFF_T"                   , "7.11.0", ""      , ""),
     CurlSymbol.new("CURLOPTTYPE_STRINGPOINT"             , "7.46.0", ""      , ""),
+    CurlSymbol.new("CURLOPTTYPE_SLISTPOINT"              , "7.65.2", ""      , ""),
     CurlSymbol.new("CURLOPT_ABSTRACT_UNIX_SOCKET"        , "7.53.0", ""      , ""),
     CurlSymbol.new("CURLOPT_ACCEPTTIMEOUT_MS"            , "7.24.0", ""      , ""),
     CurlSymbol.new("CURLOPT_ACCEPT_ENCODING"             , "7.21.6", ""      , ""),
     CurlSymbol.new("CURLOPT_ADDRESS_SCOPE"               , "7.19.0", ""      , ""),
+    CurlSymbol.new("CURLOPT_ALTSVC"                      , "7.64.1", ""      , ""),
+    CurlSymbol.new("CURLOPT_ALTSVC_CTRL"                 , "7.64.1", ""      , ""),
     CurlSymbol.new("CURLOPT_APPEND"                      , "7.17.0", ""      , ""),
     CurlSymbol.new("CURLOPT_AUTOREFERER"                 , "7.1"   , ""      , ""),
     CurlSymbol.new("CURLOPT_BUFFERSIZE"                  , "7.10"  , ""      , ""),
@@ -437,8 +446,6 @@ module LibCurlSymbols
     CurlSymbol.new("CURLOPT_HTTP_CONTENT_DECODING"       , "7.16.2", ""      , ""),
     CurlSymbol.new("CURLOPT_HTTP_TRANSFER_DECODING"      , "7.16.2", ""      , ""),
     CurlSymbol.new("CURLOPT_HTTP_VERSION"                , "7.9.1" , ""      , ""),
-    CurlSymbol.new("CURLOPT_TRAILERFUNCTION"             , "7.64.0", ""      , ""),
-    CurlSymbol.new("CURLOPT_TRAILERDATA"                 , "7.64.0", ""      , ""),
     CurlSymbol.new("CURLOPT_IGNORE_CONTENT_LENGTH"       , "7.14.1", ""      , ""),
     CurlSymbol.new("CURLOPT_INFILE"                      , "7.1"   , "7.9.7" , ""),
     CurlSymbol.new("CURLOPT_INFILESIZE"                  , "7.1"   , ""      , ""),
@@ -462,6 +469,7 @@ module LibCurlSymbols
     CurlSymbol.new("CURLOPT_MAIL_AUTH"                   , "7.25.0", ""      , ""),
     CurlSymbol.new("CURLOPT_MAIL_FROM"                   , "7.20.0", ""      , ""),
     CurlSymbol.new("CURLOPT_MAIL_RCPT"                   , "7.20.0", ""      , ""),
+    CurlSymbol.new("CURLOPT_MAXAGE_CONN"                 , "7.65.0", ""      , ""),
     CurlSymbol.new("CURLOPT_MAXCONNECTS"                 , "7.7"   , ""      , ""),
     CurlSymbol.new("CURLOPT_MAXFILESIZE"                 , "7.10.8", ""      , ""),
     CurlSymbol.new("CURLOPT_MAXFILESIZE_LARGE"           , "7.11.0", ""      , ""),
@@ -620,6 +628,8 @@ module LibCurlSymbols
     CurlSymbol.new("CURLOPT_TLSAUTH_PASSWORD"            , "7.21.4", ""      , ""),
     CurlSymbol.new("CURLOPT_TLSAUTH_TYPE"                , "7.21.4", ""      , ""),
     CurlSymbol.new("CURLOPT_TLSAUTH_USERNAME"            , "7.21.4", ""      , ""),
+    CurlSymbol.new("CURLOPT_TRAILERDATA"                 , "7.64.0", ""      , ""),
+    CurlSymbol.new("CURLOPT_TRAILERFUNCTION"             , "7.64.0", ""      , ""),
     CurlSymbol.new("CURLOPT_TRANSFERTEXT"                , "7.1.1" , ""      , ""),
     CurlSymbol.new("CURLOPT_TRANSFER_ENCODING"           , "7.21.6", ""      , ""),
     CurlSymbol.new("CURLOPT_UNIX_SOCKET_PATH"            , "7.40.0", ""      , ""),
@@ -712,7 +722,7 @@ module LibCurlSymbols
     CurlSymbol.new("CURLSSLBACKEND_AXTLS"                , "7.38.0", "7.61.0", ""),
     CurlSymbol.new("CURLSSLBACKEND_BORINGSSL"            , "7.49.0", ""      , ""),
     CurlSymbol.new("CURLSSLBACKEND_CYASSL"               , "7.34.0", ""      , ""),
-    CurlSymbol.new("CURLSSLBACKEND_DARWINSSL"            , "7.34.0", ""      , ""),
+    CurlSymbol.new("CURLSSLBACKEND_DARWINSSL"            , "7.34.0", "7.64.1", ""),
     CurlSymbol.new("CURLSSLBACKEND_GNUTLS"               , "7.34.0", ""      , ""),
     CurlSymbol.new("CURLSSLBACKEND_GSKIT"                , "7.34.0", ""      , ""),
     CurlSymbol.new("CURLSSLBACKEND_LIBRESSL"             , "7.49.0", ""      , ""),
@@ -724,6 +734,7 @@ module LibCurlSymbols
     CurlSymbol.new("CURLSSLBACKEND_POLARSSL"             , "7.34.0", ""      , ""),
     CurlSymbol.new("CURLSSLBACKEND_QSOSSL"               , "7.34.0", "-"     , "7.38.1"),
     CurlSymbol.new("CURLSSLBACKEND_SCHANNEL"             , "7.34.0", ""      , ""),
+    CurlSymbol.new("CURLSSLBACKEND_SECURETRANSPORT"      , "7.64.1", ""      , ""),
     CurlSymbol.new("CURLSSLBACKEND_WOLFSSL"              , "7.49.0", ""      , ""),
     CurlSymbol.new("CURLSSLOPT_ALLOW_BEAST"              , "7.25.0", ""      , ""),
     CurlSymbol.new("CURLSSLOPT_NO_REVOKE"                , "7.44.0", ""      , ""),
@@ -759,6 +770,7 @@ module LibCurlSymbols
     CurlSymbol.new("CURLUPART_SCHEME"                    , "7.62.0", ""      , ""),
     CurlSymbol.new("CURLUPART_URL"                       , "7.62.0", ""      , ""),
     CurlSymbol.new("CURLUPART_USER"                      , "7.62.0", ""      , ""),
+    CurlSymbol.new("CURLUPART_ZONEID"                    , "7.65.0", ""      , ""),
     CurlSymbol.new("CURLUSESSL_ALL"                      , "7.17.0", ""      , ""),
     CurlSymbol.new("CURLUSESSL_CONTROL"                  , "7.17.0", ""      , ""),
     CurlSymbol.new("CURLUSESSL_NONE"                     , "7.17.0", ""      , ""),
@@ -859,8 +871,6 @@ module LibCurlSymbols
     CurlSymbol.new("CURL_PUSH_OK"                        , "7.44.0", ""      , ""),
     CurlSymbol.new("CURL_READFUNC_ABORT"                 , "7.12.1", ""      , ""),
     CurlSymbol.new("CURL_READFUNC_PAUSE"                 , "7.18.0", ""      , ""),
-    CurlSymbol.new("CURL_TRAILERFUNC_OK"                 , "7.64.0", ""      , ""),
-    CurlSymbol.new("CURL_TRAILERFUNC_ABORT"              , "7.64.0", ""      , ""),
     CurlSymbol.new("CURL_REDIR_GET_ALL"                  , "7.19.1", ""      , ""),
     CurlSymbol.new("CURL_REDIR_POST_301"                 , "7.19.1", ""      , ""),
     CurlSymbol.new("CURL_REDIR_POST_302"                 , "7.19.1", ""      , ""),
@@ -907,7 +917,10 @@ module LibCurlSymbols
     CurlSymbol.new("CURL_TIMECOND_NONE"                  , "7.9.7" , ""      , ""),
     CurlSymbol.new("CURL_TLSAUTH_NONE"                   , "7.21.4", ""      , ""),
     CurlSymbol.new("CURL_TLSAUTH_SRP"                    , "7.21.4", ""      , ""),
+    CurlSymbol.new("CURL_TRAILERFUNC_ABORT"              , "7.64.0", ""      , ""),
+    CurlSymbol.new("CURL_TRAILERFUNC_OK"                 , "7.64.0", ""      , ""),
     CurlSymbol.new("CURL_UPKEEP_INTERVAL_DEFAULT"        , "7.62.0", ""      , ""),
+    CurlSymbol.new("CURL_VERSION_ALTSVC"                 , "7.64.1", ""      , ""),
     CurlSymbol.new("CURL_VERSION_ASYNCHDNS"              , "7.10.7", ""      , ""),
     CurlSymbol.new("CURL_VERSION_BROTLI"                 , "7.57.0", ""      , ""),
     CurlSymbol.new("CURL_VERSION_CONV"                   , "7.15.4", ""      , ""),

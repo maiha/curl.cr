@@ -4,6 +4,7 @@ SHELL = /bin/bash
 export LC_ALL=C
 export UID = $(shell id -u)
 export GID = $(shell id -g)
+export CURL_VERSION = 7_65_3
 
 .PHONY : crurl
 

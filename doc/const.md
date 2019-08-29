@@ -1,7 +1,13 @@
 # const
-## Implemented 3% (30/920)
+## Implemented 3% (30/933)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
+|`CURLALTSVC_ALTUSED`                  |     ||
+|`CURLALTSVC_H1`                       |     ||
+|`CURLALTSVC_H2`                       |     ||
+|`CURLALTSVC_H3`                       |     ||
+|`CURLALTSVC_IMMEDIATELY`              |     ||
+|`CURLALTSVC_READONLYFILE`             |     ||
 |`CURLAUTH_ANY`                        |     ||
 |`CURLAUTH_ANYSAFE`                    |     ||
 |`CURLAUTH_BASIC`                      |✓    ||
@@ -329,10 +335,13 @@
 |`CURLOPTTYPE_OBJECTPOINT`             |     ||
 |`CURLOPTTYPE_OFF_T`                   |     ||
 |`CURLOPTTYPE_STRINGPOINT`             |     ||
+|`CURLOPTTYPE_SLISTPOINT`              |     ||
 |`CURLOPT_ABSTRACT_UNIX_SOCKET`        |     ||
 |`CURLOPT_ACCEPTTIMEOUT_MS`            |     ||
 |`CURLOPT_ACCEPT_ENCODING`             |✓    ||
 |`CURLOPT_ADDRESS_SCOPE`               |     ||
+|`CURLOPT_ALTSVC`                      |     ||
+|`CURLOPT_ALTSVC_CTRL`                 |     ||
 |`CURLOPT_APPEND`                      |     ||
 |`CURLOPT_AUTOREFERER`                 |     ||
 |`CURLOPT_BUFFERSIZE`                  |     ||
@@ -422,8 +431,6 @@
 |`CURLOPT_HTTP_CONTENT_DECODING`       |✓    ||
 |`CURLOPT_HTTP_TRANSFER_DECODING`      |     ||
 |`CURLOPT_HTTP_VERSION`                |     ||
-|`CURLOPT_TRAILERFUNCTION`             |     ||
-|`CURLOPT_TRAILERDATA`                 |     ||
 |`CURLOPT_IGNORE_CONTENT_LENGTH`       |     ||
 |`CURLOPT_INFILE`                      |     ||
 |`CURLOPT_INFILESIZE`                  |     ||
@@ -447,6 +454,7 @@
 |`CURLOPT_MAIL_AUTH`                   |     ||
 |`CURLOPT_MAIL_FROM`                   |     ||
 |`CURLOPT_MAIL_RCPT`                   |     ||
+|`CURLOPT_MAXAGE_CONN`                 |     ||
 |`CURLOPT_MAXCONNECTS`                 |     ||
 |`CURLOPT_MAXFILESIZE`                 |     ||
 |`CURLOPT_MAXFILESIZE_LARGE`           |     ||
@@ -605,6 +613,8 @@
 |`CURLOPT_TLSAUTH_PASSWORD`            |     ||
 |`CURLOPT_TLSAUTH_TYPE`                |     ||
 |`CURLOPT_TLSAUTH_USERNAME`            |     ||
+|`CURLOPT_TRAILERDATA`                 |     ||
+|`CURLOPT_TRAILERFUNCTION`             |     ||
 |`CURLOPT_TRANSFERTEXT`                |     ||
 |`CURLOPT_TRANSFER_ENCODING`           |     ||
 |`CURLOPT_UNIX_SOCKET_PATH`            |     ||
@@ -709,6 +719,7 @@
 |`CURLSSLBACKEND_POLARSSL`             |     ||
 |`CURLSSLBACKEND_QSOSSL`               |     ||
 |`CURLSSLBACKEND_SCHANNEL`             |     ||
+|`CURLSSLBACKEND_SECURETRANSPORT`      |     ||
 |`CURLSSLBACKEND_WOLFSSL`              |     ||
 |`CURLSSLOPT_ALLOW_BEAST`              |     ||
 |`CURLSSLOPT_NO_REVOKE`                |     ||
@@ -744,6 +755,7 @@
 |`CURLUPART_SCHEME`                    |     ||
 |`CURLUPART_URL`                       |     ||
 |`CURLUPART_USER`                      |     ||
+|`CURLUPART_ZONEID`                    |     ||
 |`CURLUSESSL_ALL`                      |     ||
 |`CURLUSESSL_CONTROL`                  |     ||
 |`CURLUSESSL_NONE`                     |     ||
@@ -844,8 +856,6 @@
 |`CURL_PUSH_OK`                        |     ||
 |`CURL_READFUNC_ABORT`                 |     ||
 |`CURL_READFUNC_PAUSE`                 |     ||
-|`CURL_TRAILERFUNC_OK`                 |     ||
-|`CURL_TRAILERFUNC_ABORT`              |     ||
 |`CURL_REDIR_GET_ALL`                  |     ||
 |`CURL_REDIR_POST_301`                 |     ||
 |`CURL_REDIR_POST_302`                 |     ||
@@ -892,7 +902,10 @@
 |`CURL_TIMECOND_NONE`                  |     ||
 |`CURL_TLSAUTH_NONE`                   |     ||
 |`CURL_TLSAUTH_SRP`                    |     ||
+|`CURL_TRAILERFUNC_ABORT`              |     ||
+|`CURL_TRAILERFUNC_OK`                 |     ||
 |`CURL_UPKEEP_INTERVAL_DEFAULT`        |     ||
+|`CURL_VERSION_ALTSVC`                 |     ||
 |`CURL_VERSION_ASYNCHDNS`              |     ||
 |`CURL_VERSION_BROTLI`                 |     ||
 |`CURL_VERSION_CONV`                   |     ||

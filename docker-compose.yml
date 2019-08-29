@@ -4,7 +4,7 @@ services:
   static:
     build:
       context: ./docker/
-    command: build curl-7_64_0
+    command: build curl-${CURL_VERSION}
     user: "${UID}:${GID}"
     volumes:
       - .:/v
