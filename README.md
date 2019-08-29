@@ -3,7 +3,7 @@
 High level curl library for Crystal.
 This is a handy wrapper for blocknotes's [curl-crystal](https://github.com/blocknotes/curl-crystal)
 
-- crystal-0.27.0 : https://crystal-lang.org/
+- crystal-0.30.0 : https://crystal-lang.org/
 - curl-7_64_0 : https://github.com/curl/curl
   - `Multi` interface requires 7.28.0 or above.
 

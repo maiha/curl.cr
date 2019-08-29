@@ -7,7 +7,7 @@
 ###   - "src/lib_curl_const.cr"
 ###   - "doc/const/list"
 
-require "../curl"
+require "../src/curl"
 
 File.exists?("curl") || abort "'curl' sources not found. Please run 'make libcurl.a` first."
 

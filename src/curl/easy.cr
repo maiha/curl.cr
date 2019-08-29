@@ -82,8 +82,8 @@ class Curl::Easy
       self.uri = URI.parse(path.to_s)
     when /^([^:]+):(\d+)/
       self.uri = URI.parse("http://#{path}")
-    when %{^/}
-      uri.path = path
+    when %r{^/}
+      uri.path = path.to_s
     when String
       raise Error.new("invalid url: '#{path}'")
     else
