@@ -29,6 +29,7 @@ describe Curl::Easy do
     http_res.status_code.should eq(200)
     http_res.headers.should be_a HTTP::Headers
     http_res.headers["Content-Type"]?.should eq "text/html; charset=UTF-8"
+    http_res.body.should contain("Example Domain")
     # shortcuts
     res.headers.should eq(http_res.headers)
 

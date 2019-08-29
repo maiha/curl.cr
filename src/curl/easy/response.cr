@@ -45,6 +45,14 @@ class Curl::Easy::Response
     io = IO::Memory.new
     io.print header
     io.rewind
-    HTTP::Client::Response.from_io(io, ignore_body: true, decompress: false)
+
+    # stdlib(HTTP::Client::Response) sometimes raises when parsing body
+    # So, use it for just parsing headers, then composes with our objects.
+
+    # 1. parse headers
+    headers = HTTP::Client::Response.from_io(io, ignore_body: true, decompress: false).headers
+
+    # 2. compose with our objects
+    return HTTP::Client::Response.new(code, body, headers)
   end
 end
