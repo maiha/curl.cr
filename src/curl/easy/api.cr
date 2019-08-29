@@ -1,13 +1,15 @@
 class Curl::Easy
-  protected def error_check!(code : Code, hint : String? = nil)
-    code.curle_ok? || raise Error.new(code, hint, uri?)
+  protected def error_check!(code : Code, hint : String)
+    code.curle_ok? || raise Error.new(code: code, hint: hint, uri: uri?)
   end
 
   # Defines handy methods for the native functions
   private macro api(name)
     def {{name.id}}(*args)
+      hint = Error.hint("{{name.id}}", args)
+      logger.debug hint
       _rv = ::LibCurl.{{name.id}}(*args)
-      error_check!(_rv, "{{name.id}}")
+      error_check!(_rv, hint)
     end
 
     # returns nil if no errors, otherwise returns the exception
@@ -30,10 +32,10 @@ class Curl::Easy
   api  curl_easy_cleanup
   api  curl_easy_getinfo
 
-  # override `curl_easy_setopt` to embed logging
+  # override `curl_easy_setopt` to embed values into logging
   def curl_easy_setopt(curl, name, value)
     logger.debug "setopt: #{name}, #{value.inspect}"
     _rv = ::LibCurl.curl_easy_setopt(curl, name, value)
-    error_check!(_rv, "curl_easy_setopt")
+    error_check!(_rv, hint: "curl_easy_setopt(#{name})")
   end
 end

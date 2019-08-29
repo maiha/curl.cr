@@ -10,6 +10,18 @@ module LibCurlSymbols
     CurlSymbols.each{|s| yield s}
   end
 
+  def self.[](name : String)
+    self[name]? || raise ArgumentError.new("no symbols for '#{name}'")
+  end
+
+  def self.[]?(name : String)
+    name = name.upcase
+    each do |s|
+      return s if s.name == name
+    end
+    return nil
+  end
+
   record CurlSymbol,
     name       : String, 
     introduced : String,

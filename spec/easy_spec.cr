@@ -89,4 +89,18 @@ describe Curl::Easy do
     curl.output = "index.html"
     curl.output_data.memory?.should be_false
   end
+
+  it "raises with the option name when CURLE_UNKNOWN_OPTION" do
+    # ```crystal
+    # curl = Curl::Easy.new("https://example.com")
+    # curl.curl_easy_setopt(curl.curl, NEW_OPTION_NOT_IN_LIB, "")
+    # ```
+    # This code raises `Curl::Easy::Error`.
+    # We just test the object since it's hard to emulate it with our lib.
+    err = Curl::Easy::Error.new(code: :CURLE_UNKNOWN_OPTION, hint: "new_opt")
+
+    # This shows "An unknown option was passed in to libcurl" in general.
+    # We append option name.
+    err.to_s.should eq "An unknown option was passed in to libcurl [new_opt]"
+  end
 end
