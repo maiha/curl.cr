@@ -26,7 +26,19 @@ module LibCurlSymbols
     name       : String, 
     introduced : String,
     deprecated : String,
-    removed    : String
+    removed    : String do
+
+    def to_s(io : IO)
+      v = String.build do |s|
+        s << introduced
+        s << "-"
+        s << deprecated
+        s << removed
+      end
+      io << name.to_s
+      io << "(#{v})" if v != "-"
+    end
+  end
 
   CurlSymbols = [
     CurlSymbol.new("CURLALTSVC_ALTUSED"                  , "7.64.1", ""      , ""),

@@ -103,4 +103,23 @@ describe Curl::Easy do
     # We append option name.
     err.to_s.should eq "An unknown option was passed in to libcurl [new_opt]"
   end
+
+  describe "Error" do
+    describe ".hint" do
+      it "returns just name if args[1] is missing" do
+        hint = Curl::Easy::Error.hint("curl_easy_getinfo", {"curl"})
+        hint.should eq "curl_easy_getinfo"
+      end
+
+      it "returns just name if args[1] is String" do
+        hint = Curl::Easy::Error.hint("curl_easy_getinfo", {"curl", "1"})
+        hint.should eq "curl_easy_getinfo"
+      end
+
+      it "embeds version if args[1] is Curl constants" do
+        hint = Curl::Easy::Error.hint("curl_easy_getinfo", {"curl", Curl::CURLINFO_HTTP_VERSION})
+        hint.should eq "curl_easy_getinfo(CURLINFO_HTTP_VERSION(7.50.0-))"
+      end
+    end
+  end
 end

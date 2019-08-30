@@ -26,16 +26,17 @@ class Curl::Easy::Error < Curl::Error
 
   def self.hint(name : String, args : Tuple) : String
     # name: "curl_easy_getinfo"
-    # args:  {Pointer(LibCurl::CURL)@0x563403706460, CURLINFO_RESPONSE_CODE, Pointer(Pointer(UInt8))@0x7f2a8363cfe0}]
+    # args:  {Pointer(LibCurl::CURL)@0x563403706460, CURLINFO_HTTP_VERSION, Pointer(Pointer(UInt8))@0x7f2a8363cfe0}]
     # args[0]: curl pointer
-    # args[1]: key (CURLINFO_RESPONSE_CODE)
+    # args[1]: key (CURLINFO_HTTP_VERSION)
     # args[2]: val (...)
 
-    hint = "#{name}(#{args.size})"
-    if (args.size >= 2) && (args[0]?.is_a?(LibCurl::CURL*))
+    hint = name
+    if args.size >= 2
       case v = args[1]?
       when LibCurl::CURLcode, LibCurl::CURLoption, LibCurl::CURLINFO
-        hint = "#{name}(#{v})"
+        s = LibCurlSymbols[v.to_s]? || v.to_s
+        hint = "#{name}(#{s})" # "curl_easy_getinfo(CURLINFO_HTTP_VERSION)"
       end
     end
     return hint
