@@ -22,7 +22,7 @@ class Curl::Easy::Response
   end
 
   def success? : Bool
-    code == 200
+    200 <= code <= 299
   end
 
   def to_s(io : IO)
