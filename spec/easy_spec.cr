@@ -35,7 +35,6 @@ describe Curl::Easy do
 
     # info (after request)
     res.info.response_code      .should eq(200)
-    res.info.http_version       .should eq(Curl::CURL_HTTP_VERSION_1_1.value)
     res.info.content_type       .should eq("text/html; charset=UTF-8")
     res.info.size_download      .should be_a(Float64)
     res.info.speed_download     .should be_a(Float64)
@@ -47,6 +46,10 @@ describe Curl::Easy do
     res.info.total_time         .should be_a(Float64)
     res.info.redirect_time      .should be_a(Float64)
 
+    {% if flag?(:libcurl750) %}
+      res.info.http_version       .should eq(Curl::CURL_HTTP_VERSION_1_1.value)
+    {% end %}
+    
 #    res.info.last_modified?     .should be_a(Time)
   end
 

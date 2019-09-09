@@ -1,3 +1,6 @@
+# travis-ci only provides old ubuntu(16.04) that contains curl 7.47.0.
+# So, we use enables functions by compilation flag (libcurl750)
+
 private macro info(assign)
   {% symbol  = assign.target %}
   {% value   = assign.value %}
@@ -32,7 +35,7 @@ end
 class Curl::Easy
   class Info
     var response_code      : Int32
-    var http_version       : Int64
+    var http_version       : Int64 # libcurl-7.50
 #    var filetime           : Int64
     var size_download      : Float64
     var speed_download     : Float64
@@ -90,7 +93,6 @@ class Curl::Easy
   protected def build_info : Info
     i = Info.new
     i.response_code      = info_response_code
-    i.http_version       = info_http_version
 #    i.filetime           = info_filetime
     i.size_download      = info_size_download
     i.speed_download     = info_speed_download
@@ -102,11 +104,14 @@ class Curl::Easy
     i.starttransfer_time = info_starttransfer_time
     i.total_time         = info_total_time
     i.redirect_time      = info_redirect_time
+
+    {% if flag?(:libcurl750) %}
+      i.http_version       = info_http_version
+    {% end %}
     i
   end
 
   info CURLINFO_RESPONSE_CODE      = Int32
-  info CURLINFO_HTTP_VERSION       = Int64
 #  info CURLINFO_FILETIME           = Int64 # {Int64, -1}
   info CURLINFO_SIZE_DOWNLOAD      = Float64
   info CURLINFO_SPEED_DOWNLOAD     = Float64
@@ -119,6 +124,10 @@ class Curl::Easy
   info CURLINFO_STARTTRANSFER_TIME = Float64
   info CURLINFO_TOTAL_TIME         = Float64
   info CURLINFO_REDIRECT_TIME      = Float64
+
+  {% if flag?(:libcurl750) %}
+    info CURLINFO_HTTP_VERSION       = Int64
+  {% end %}
 
   # # pending: I don't know why `v.value` is always `-1` here.
   # def info_filetime
