@@ -16,7 +16,16 @@ class Curl::Easy::Error < Curl::Error
       end
     end
 
-    msg ||= hint || "error"
+    unless msg
+      if hint
+        msg = "#{hint}"
+        if c = code
+          msg = "#{msg}(#{c})"
+        end
+      end
+    end
+    
+    msg ||= "error"
     super(msg)
   end
 

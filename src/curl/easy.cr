@@ -7,9 +7,11 @@ class Curl::Easy
   ### Public variables
 
   var uri      : URI
+  var method   : Method   = Method::GET
   var logger   : Logger   = Logger.new(STDERR)
   var response : Response = build_response
   var info     : Info     = build_info
+  var body     : String   = ""
 
   # behavior
   var dump_header = false # Pass headers to the data stream
@@ -36,10 +38,30 @@ class Curl::Easy
   def url : String
     uri.to_s
   end
-  
+
+  def content_type=(v : String)
+    headers["Content-Type"] = v
+  end
+
   def get(path : String? = nil) : Response
     update_uri!(path)
-    return execute
+    return execute(Method::GET)
+  end
+  
+  def post(path : String? = nil, body : String? = nil, json = nil, form : Hash(String, String)? = nil) : Response
+    update_uri!(path)
+
+    if json
+      self.content_type = "application/json"
+      body = json.to_json
+    elsif form
+      self.content_type = "application/x-www-form-urlencoded"
+      body = HTTP::Params.encode(form)
+    elsif body
+      self.content_type = "application/octet-stream"
+    end
+    @body = body
+    return execute(Method::POST)
   end
 
   def to_s(io : IO)

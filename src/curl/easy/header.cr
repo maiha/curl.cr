@@ -1,14 +1,17 @@
 class Curl::Easy
-  var header_data : MemOutput = MemOutput.new
+  var headers : Hash(String, String) = Hash(String, String).new
 
   protected def callback_header!
-    func = ->(ptr : UInt8*, size : LibC::SizeT, nmemb : LibC::SizeT, data : Void*) {
-      bytes = Bytes.new(ptr, size * nmemb)
-      data.as(IO).write(bytes)
-      size * nmemb
-    }
+    return if headers.empty?
 
-    curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, func)
-    curl_easy_setopt(curl, CURLOPT_HEADERDATA, header_data.as(Void*))
+    list = Pointer(LibCurl::CurlSlist).null
+    headers.each do |k,v|
+      list = LibCurl.curl_slist_append(list, "#{k}: #{v}")
+    end
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list)
+
+    after_execute {
+      LibCurl.curl_slist_free_all(list)
+    }
   end
 end

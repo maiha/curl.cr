@@ -1,6 +1,8 @@
 SHELL = /bin/bash
 .SHELLFLAGS = -o pipefail -c
 
+WARNINGS := --warnings none
+
 export LC_ALL=C
 export UID = $(shell id -u)
 export GID = $(shell id -g)
@@ -15,7 +17,7 @@ build:
 
 .PHONY : spec
 spec:
-	crystal spec -v --fail-fast
+	crystal spec -v --fail-fast $(WARNINGS)
 
 dynamic-crurl:
 	crystal build samples/crurl.cr

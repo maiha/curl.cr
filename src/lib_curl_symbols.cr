@@ -11,7 +11,7 @@ module LibCurlSymbols
   end
 
   def self.[](name : String)
-    self[name]? || raise ArgumentError.new("no symbols for '#{name}'")
+    self[name]? || raise ArgumentError.new("no symbols for '%s'" % name)
   end
 
   def self.[]?(name : String)
@@ -36,7 +36,7 @@ module LibCurlSymbols
         s << removed
       end
       io << name.to_s
-      io << "(#{v})" if v != "-"
+      io << "(" << v << ")" if v != "-"
     end
   end
 

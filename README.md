@@ -3,7 +3,7 @@
 High level curl library for Crystal.
 This is a handy wrapper for blocknotes's [curl-crystal](https://github.com/blocknotes/curl-crystal)
 
-- crystal-0.30.0 : https://crystal-lang.org/
+- crystal-0.31.1 : https://crystal-lang.org/
 - curl-7_65_3 : https://github.com/curl/curl
   - `Multi` interface requires 7.28.0 or above.
 
@@ -37,8 +37,11 @@ res.code         # => 200
 res.content_type # => "text/html; charset=UTF-8"
 res.headers      # => HTTP::Headers{"content-type" => "text/html", ...
 res.body         # => "<html>..."
-
 curl.to_s        # => "200 http://examples.com"
+
+curl = Curl::Easy.new
+curl.content_type = "application/json"
+res = curl.post("http://examples.com", body: "[1,2,3]")
 ```
 
 See [src/curl/easy.cr](./src/curl/easy.cr) for all variables.
@@ -48,6 +51,7 @@ See [src/curl/easy.cr](./src/curl/easy.cr) for all variables.
   var logger   : Logger
   var response : Response
   var info     : Info
+  var body     : String
 
   # behavior
   var dump_header = false # Pass headers to the data stream
@@ -132,6 +136,7 @@ multi.summary           # => "2 Requests (0.5s) {\"200\" => 2}"
     - [ ] #digest_auth
   - Callback
     - [ ] before_execute
+    - [x] after_execute
   - Compress
     - [x] #compress=(v : Bool)           # control 'Accept-Encoding' header
     - [x] #encoding=(v : Easy::Encoding) # specify the value of encoding
@@ -140,6 +145,9 @@ multi.summary           # => "2 Requests (0.5s) {\"200\" => 2}"
     - [x] times stats
   - Logging
     - [x] #logger
+  - Request
+    - [x] #content_type=(v : String)
+    - [x] #headers
   - Response
     - [ ] #headers
     - [x] #code
@@ -156,7 +164,7 @@ multi.summary           # => "2 Requests (0.5s) {\"200\" => 2}"
     - [x] #verbose
 - Easy Interface : https://curl.haxx.se/libcurl/c/
   - [x] #get
-  - [ ] #post
+  - [x] #post
   - [ ] #put
 - Multi Interface : https://curl.haxx.se/libcurl/c/libcurl-multi.html
   - [x] #<<(easy : Easy)

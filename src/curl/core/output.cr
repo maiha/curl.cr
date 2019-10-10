@@ -32,13 +32,13 @@ class Curl::MemOutput < Curl::Output
     io.gets_to_end
   end
 
-  def begin
+  def begin : Nil
   end
 
-  def commit
+  def commit : Nil
   end
 
-  def abort
+  def abort : Nil
   end
 end
 
@@ -67,11 +67,11 @@ class Curl::FileOutput < Curl::Output
     File.read(path)
   end
 
-  def begin
+  def begin : Nil
     ensure_write!
   end
 
-  def commit
+  def commit : Nil
     if io = io_tmp?
       io.close
       File.rename(tmp, path)
@@ -79,7 +79,7 @@ class Curl::FileOutput < Curl::Output
     end
   end
 
-  def abort
+  def abort : Nil
   end
 
   protected def ensure_write!

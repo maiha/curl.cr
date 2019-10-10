@@ -49,11 +49,35 @@ data = String.build do |io|
         CurlSymbols.each{|s| yield s}
       end
 
+      def self.[](name : String)
+        self[name]? || raise ArgumentError.new("no symbols for '%s'" % name)
+      end
+
+      def self.[]?(name : String)
+        name = name.upcase
+        each do |s|
+          return s if s.name == name
+        end
+        return nil
+      end
+
       record CurlSymbol,
         name       : String, 
         introduced : String,
         deprecated : String,
-        removed    : String
+        removed    : String do
+
+        def to_s(io : IO)
+          v = String.build do |s|
+            s << introduced
+            s << "-"
+            s << deprecated
+            s << removed
+          end
+          io << name.to_s
+          io << "(" << v << ")" if v != "-"
+        end
+      end
 
       CurlSymbols = [
     EOF

@@ -1,11 +1,14 @@
+require "./callbacks"
 require "./info"
 
 class Curl::Easy
-  def execute : Response
+  def execute(@method : Method) : Response
     execute_before!
     execute_main
     execute_after!
     return response
+  ensure
+    after_execute!
   end
 
   # must ensure idempotency
@@ -15,10 +18,12 @@ class Curl::Easy
 
     # TODO: dry up callback feature
     callback_auth!
+    callback_body!
+    callback_header!
     callback_behavior!
     callback_compress!
     callback_timeout!
-    callback_header!
+    callback_header_data!
     callback_output!
 
     output_data.begin
@@ -44,33 +49,5 @@ class Curl::Easy
 
     header = header_data.gets_to_end
     return Response.new(url, status, info, header, output_data)
-  end
-
-  # [old implemented]
-  private def __boxed__execute_before!
-    curl_easy_setopt(curl, CURLOPT_URL, uri.to_s)
-
-    # TODO: dry up callback feature
-    callback_auth!
-    callback_behavior!
-    callback_compress!
-    callback_timeout!
-
-    callback = ->(ptr : Void*, size : LibC::SizeT) {
-      logger.debug "received data: #{size} Bytes" if verbose?
-      userdata.write(Slice.new(ptr.as(Pointer(UInt8)), size))
-      size
-    }
-    boxed = Box.box(callback).as(Pointer(UInt8)) # box `callback` to `Void*`
-    
-    func = ->(contents : Void*, size : LibC::SizeT, nmemb : LibC::SizeT, _boxed : Void*) {
-      cb = Box(typeof(callback)).unbox(_boxed.as(Pointer(Void))) # unbox `callback`
-      cb.call(contents, size*nmemb)
-    }
-    
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, func)
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, boxed)
-
-    update_status!(Status::RUN)
   end
 end

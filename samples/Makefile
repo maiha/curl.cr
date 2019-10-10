@@ -6,6 +6,8 @@ simple-static:
 simple:
 	gcc simple.c -lcurl
 
+header:
+	gcc header.c -lcurl
 
 info_filetime:
 	gcc info_filetime.c -lcurl

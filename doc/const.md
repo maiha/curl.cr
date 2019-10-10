@@ -1,5 +1,5 @@
 # const
-## Implemented 3% (32/933)
+## Implemented 3% (34/933)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLALTSVC_ALTUSED`                  |     ||
@@ -424,7 +424,7 @@
 |`CURLOPT_HTTP200ALIASES`              |     ||
 |`CURLOPT_HTTPAUTH`                    |✓    ||
 |`CURLOPT_HTTPGET`                     |     ||
-|`CURLOPT_HTTPHEADER`                  |     ||
+|`CURLOPT_HTTPHEADER`                  |✓    ||
 |`CURLOPT_HTTPPOST`                    |     ||
 |`CURLOPT_HTTPPROXYTUNNEL`             |     ||
 |`CURLOPT_HTTPREQUEST`                 |     ||
@@ -484,7 +484,7 @@
 |`CURLOPT_PORT`                        |     ||
 |`CURLOPT_POST`                        |     ||
 |`CURLOPT_POST301`                     |     ||
-|`CURLOPT_POSTFIELDS`                  |     ||
+|`CURLOPT_POSTFIELDS`                  |✓    ||
 |`CURLOPT_POSTFIELDSIZE`               |     ||
 |`CURLOPT_POSTFIELDSIZE_LARGE`         |     ||
 |`CURLOPT_POSTQUOTE`                   |     ||
