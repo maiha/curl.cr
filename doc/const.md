@@ -1,5 +1,5 @@
 # const
-## Implemented 3% (34/933)
+## Implemented 3% (35/933)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLALTSVC_ALTUSED`                  |     ||
@@ -623,7 +623,7 @@
 |`CURLOPT_UPLOAD`                      |     ||
 |`CURLOPT_UPLOAD_BUFFERSIZE`           |     ||
 |`CURLOPT_URL`                         |✓    ||
-|`CURLOPT_USERAGENT`                   |     ||
+|`CURLOPT_USERAGENT`                   |✓    ||
 |`CURLOPT_USERNAME`                    |     ||
 |`CURLOPT_USERPWD`                     |✓    ||
 |`CURLOPT_USE_SSL`                     |     ||
