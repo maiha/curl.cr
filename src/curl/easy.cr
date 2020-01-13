@@ -14,6 +14,7 @@ class Curl::Easy
   var body     : String   = ""
 
   var user_agent : String
+  var referer    : String
 
   # behavior
   var dump_header = false # Pass headers to the data stream

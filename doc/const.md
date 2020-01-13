@@ -1,5 +1,5 @@
 # const
-## Implemented 3% (35/933)
+## Implemented 3% (36/933)
 |Name                                  |impl |note|
 |-----                                 |:---:|-----|
 |`CURLALTSVC_ALTUSED`                  |     ||
@@ -530,7 +530,7 @@
 |`CURLOPT_READDATA`                    |     ||
 |`CURLOPT_READFUNCTION`                |     ||
 |`CURLOPT_REDIR_PROTOCOLS`             |     ||
-|`CURLOPT_REFERER`                     |     ||
+|`CURLOPT_REFERER`                     |✓    ||
 |`CURLOPT_REQUEST_TARGET`              |     ||
 |`CURLOPT_RESOLVE`                     |     ||
 |`CURLOPT_RESOLVER_START_DATA`         |     ||

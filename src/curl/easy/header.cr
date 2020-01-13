@@ -6,6 +6,10 @@ class Curl::Easy
       curl_easy_setopt(curl, CURLOPT_USERAGENT, v)
     end
 
+    if v = referer?      
+      curl_easy_setopt(curl, CURLOPT_REFERER, v)
+    end
+
     return if headers.empty?
 
     list = Pointer(LibCurl::CurlSlist).null
