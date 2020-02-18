@@ -59,7 +59,7 @@ class Curl::Multi
       easy.execute_before!
     end
     
-    self.started_at = Time.now
+    self.started_at = Pretty::Time.now
     timeout ||= timeout()
     logger.debug "multi: started %d requests (timeout: %.3f sec)" % [requests.size, timeout.total_milliseconds/1000]
 
@@ -78,8 +78,8 @@ class Curl::Multi
       break if running == 0
       logger.debug "multi: %d requests are running" % running if verbose
 
-      if Time.now > deadline
-        self.stopped_at = Time.now
+      if Pretty::Time.now > deadline
+        self.stopped_at = Pretty::Time.now
         msg = "multi: execution timeouted (remain: %d requests)" % running
         logger.warn msg
         raise IO::Timeout.new(msg)
@@ -89,7 +89,7 @@ class Curl::Multi
     end
 
   ensure
-    self.stopped_at = Time.now
+    self.stopped_at = Pretty::Time.now
     self.status = Status::DONE
     logger.debug "multi: finished %d requests (%.3f sec)" % [requests.size, total_time.total_milliseconds/1000]
 
