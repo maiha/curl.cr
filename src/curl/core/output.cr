@@ -40,6 +40,14 @@ class Curl::MemOutput < Curl::Output
 
   def abort : Nil
   end
+
+  delegate read, to: io
+
+  # write: `delegate` macro causes warning.
+  # Warning: this method overrides IO#write(slice : Bytes) which has an explicit return type of Nil.
+  def write(*args, **options) : Nil
+    io.write(*args, **options)
+  end
 end
 
 class Curl::FileOutput < Curl::Output
