@@ -70,13 +70,13 @@ class Curl::Easy
     end
 
     def human_size_download : String
-      buf = Pretty.bytes(size_download)  # => "6.5 MB"
-      buf.delete(" ")                    # => "6.5MB"
+      buf = Pretty.bytes(size_download).to_s  # => "6.5 MB"
+      buf.delete(" ")                         # => "6.5MB"
     end
 
     def human_speed_download : String
-      buf = Pretty.bytes(speed_download) # => "54.2 MB"
-      buf.delete(" ") + "/s"             # => "52.2MB/s"
+      buf = Pretty.bytes(speed_download).to_s # => "54.2 MB"
+      buf.delete(" ") + "/s"                  # => "52.2MB/s"
     end
 
     def human_total_time(fmt = "%.1fs")
