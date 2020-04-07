@@ -82,7 +82,11 @@ class Curl::Multi
         self.stopped_at = Pretty::Time.now
         msg = "multi: execution timeouted (remain: %d requests)" % running
         logger.warn msg
-        raise IO::Timeout.new(msg)
+        {% if compare_versions(Crystal::VERSION, "0.34.0-0") > 0 %}
+          raise IO::TimeoutError.new(msg)
+        {% else %}
+          raise IO::Timeout.new(msg)
+        {% end %}
       end
 
       sleep polling_interval
