@@ -14,7 +14,7 @@ This is a handy wrapper for blocknotes's [curl-crystal](https://github.com/block
 dependencies:
   curl:
     github: maiha/curl.cr
-    version: 0.4.6
+    version: 0.4.7
 ```
 2. Run `shards install`
 
